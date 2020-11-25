@@ -41,7 +41,10 @@ module.exports = class extends (
 
     async execute(message, args) {
         if (!args[0]) {
-            return incorrect("Please provide what to set. `prefix` `thank-lb` `suggestions`", message.channel);
+            return incorrect(
+                "Please provide what to set. `prefix` `thank-lb` `suggestions` `welcome-channel` `leave-channel` `join-role`",
+                message.channel
+            );
         }
 
         if (args[0] === "prefix") {
