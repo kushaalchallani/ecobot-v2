@@ -8,7 +8,7 @@ module.exports = class extends (
 ) {
     constructor(...args) {
         super(...args, {
-            name: "auto",
+            name: "automeme",
             usage: "<Action> <..arguments>",
             description: "reset the bot settings",
             aliases: ["automatic"],
@@ -28,7 +28,7 @@ module.exports = class extends (
             return incorrect("Please provide what to reset. `meme`", message.channel);
         }
 
-        if (args[0] === "meme") {
+        if (args[0] === "enable") {
             const channel = message.mentions.channels.first();
 
             if (!channel) {
@@ -51,6 +51,7 @@ module.exports = class extends (
             if (auto) {
                 auto.channelID = channel.id;
                 auto.Time = time;
+                auto.status = true;
                 auto.save();
             } else {
                 const newMeme = new automemeModel({
@@ -58,6 +59,7 @@ module.exports = class extends (
                     guildName: message.guild.name,
                     channelID: channel.id,
                     Time: time,
+                    status: true,
                 });
 
                 await newMeme.save();
