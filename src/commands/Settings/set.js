@@ -156,7 +156,7 @@ module.exports = class extends (
             return await success(`Successfully set the welcome channel to ${welcomeChanel}`, message.channel);
         }
 
-        if (args[0] === "join-role") {
+        if (args[0] === "joinrole") {
             const role = await joinroleModel.findOne({
                 guildId: message.guild.id,
             });

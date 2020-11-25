@@ -70,7 +70,7 @@ module.exports = class extends (
             });
         }
 
-        if (args[0] === "join-role") {
+        if (args[0] === "joinrole") {
             joinroleModel.deleteMany({ guildId: message.guild.id }, async (err, data) => {
                 if (err) throw err;
                 if (data) {
