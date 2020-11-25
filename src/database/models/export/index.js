@@ -11,4 +11,5 @@ module.exports = {
     welcomeModel: require("../welcomeModel"),
     leaveModel: require("../leaveModel"),
     joinroleModel: require("../joinrole"),
+    automemeModel: require("../automeme"),
 };
