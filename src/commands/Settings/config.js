@@ -1,8 +1,17 @@
 const Command = require("../../structures/bases/commandBase");
-const { prefixModel, suggestionModel, thanklbModel, welcomeModel } = require("../../database/models/export/index");
 const Embed = require("../../structures/embed");
+const {
+    prefixModel,
+    suggestionModel,
+    thanklbModel,
+    welcomeModel,
+    leaveModel,
+    joinroleModel,
+} = require("../../database/models/export/index");
 
-module.exports = class extends Command {
+module.exports = class extends (
+    Command
+) {
     constructor(...args) {
         super(...args, {
             name: "config",
@@ -16,7 +25,6 @@ module.exports = class extends Command {
             aliases: ["rt"],
         });
     }
-
     async execute(message) {
         const prefix = (await prefixModel.findOne({ guildID: message.guild.id }))
             ? (await prefixModel.findOne({ guildID: message.guild.id })).prefix
@@ -34,17 +42,37 @@ module.exports = class extends Command {
             guildId: message.guild.id,
         });
 
+        const leave = await leaveModel.findOne({
+            guildId: message.guild.id,
+        });
+
+        const role = await joinroleModel.findOne({
+            guildId: message.guild.id,
+        });
+
         const embed = new Embed()
             .setColor("BLUE")
+            .setTitle("⚙ Config")
             .setFooter(`Use ${prefix}set to change settings in your server`)
-            .addField("Prefix", `\`${prefix}\``, true)
-            .addField("Suggestion Channel", `<#${suggestion.channelId}>` || "None", true)
+
+            .addField(
+                "Welcome Channel",
+                welcome ? (welcome.channelId ? `<#${welcome.channelId}>` : "None") : "None",
+                true
+            )
+            .addField(
+                "Suggestion Channel",
+                suggestion ? (suggestion.channelId ? `<#${suggestion.channelId}>` : "None") : "None",
+                true
+            )
             .addField(
                 "Thank Leaderboard",
                 thanksLB ? (thanksLB.channelId ? `<#${thanksLB.channelId}>` : "None") : "None",
                 true
             )
-            .addField("Welcome Channel", `<#${welcome.channelId}>` || "None", true);
+            .addField("Prefix", `\`${prefix}\``, true)
+            .addField("Leave Channel", leave ? (leave.channelId ? `<#${leave.channelId}>` : "None") : "None", true)
+            .addField("Join Role", role ? (role.roleId ? `<#${role.roleId}>` : "None") : "None", true);
         message.channel.send(embed);
     }
 };
