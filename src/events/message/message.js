@@ -6,7 +6,9 @@ const { prefixModel, tagModel, premiumModel } = require("../../database/models/e
 const { errormsgs } = require("../../json/exports/index");
 const { redEmbed } = require("../../utils/export/index");
 
-module.exports = class extends Event {
+module.exports = class extends (
+    Event
+) {
     constructor(...args) {
         super(...args, {
             name: "message",
@@ -36,13 +38,13 @@ module.exports = class extends Event {
         if (message.author.bot) return;
         if (message.channel.type === "dm") return;
 
-        const [commandName, ...args] = message.content.slice(prefix.length).trim().split(/ +/g);
+        const [commandName, ...args] = message.content.slice(PREFIX.length).trim().split(/ +/g);
 
         const command =
             this.client.commands.get(commandName) || this.client.commands.get(this.client.aliases.get(commandName));
 
         if (!command) {
-            const tagName = message.content.slice(this.client.prefix.length);
+            const tagName = message.content.slice(PREFIX.length);
 
             const tagDoc =
                 (await tagModel.findOne({ guildID: message.guild.id, tagName: tagName })) ||
