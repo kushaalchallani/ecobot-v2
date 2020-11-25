@@ -1,5 +1,6 @@
 const Command = require("../../structures/bases/commandBase");
 const { fetchSuggestionChannels } = require("../../features/suggestion");
+const { incorrect, success, error } = require("../../utils/export/index");
 const {
     prefixModel,
     suggestionModel,
@@ -8,13 +9,14 @@ const {
     joinroleModel,
     leaveModel,
 } = require("../../database/models/export/index");
-const { incorrect, success, error } = require("../../utils/export/index");
 
-module.exports = class extends Command {
+module.exports = class extends (
+    Command
+) {
     constructor(...args) {
         super(...args, {
             name: "set",
-            usage: "<prefix || thanks-lb || suggestions> <...arguments>",
+            usage: "<Action> <...arguments>",
             description: "Change the bot settings",
             aliases: ["setprefix", "changeprefix", "newprefix", "server-settings", "settings"],
             category: "Settings",
@@ -29,8 +31,11 @@ module.exports = class extends Command {
                 "set thank-lb #thank-lb",
                 "set suggestions",
                 "set suggestions #suggestions",
+                "set welcome-channel #join-leave",
+                "set leave-channel #join-leave",
+                "set join-role @Members",
             ],
-            subcommands: ["prefix", "thanks-lb", "suggestions"],
+            subcommands: ["prefix", "thanks-lb", "suggestions", "welcome-channel", "leave-channel", "join-role"],
         });
     }
 
