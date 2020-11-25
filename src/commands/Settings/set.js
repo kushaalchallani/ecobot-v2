@@ -28,7 +28,7 @@ module.exports = class extends (
             examples: [
                 "set prefix !?",
                 "set thank-lb ",
-                "set thank-lb #thank-lb",
+                "set thanks-lb #thank-lb",
                 "set suggestions",
                 "set suggestions #suggestions",
                 "set welcome-channel #join-leave",
@@ -42,7 +42,7 @@ module.exports = class extends (
     async execute(message, args) {
         if (!args[0]) {
             return incorrect(
-                "Please provide what to set. `prefix` `thank-lb` `suggestions` `welcome-channel` `leave-channel` `join-role`",
+                "Please provide what to set. `prefix` `thanks-lb` `suggestions` `welcome-channel` `leave-channel` `join-role`",
                 message.channel
             );
         }

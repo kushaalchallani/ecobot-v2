@@ -72,7 +72,7 @@ module.exports = class extends (
             )
             .addField("Prefix", `\`${prefix}\``, true)
             .addField("Leave Channel", leave ? (leave.channelId ? `<#${leave.channelId}>` : "None") : "None", true)
-            .addField("Join Role", role ? (role.roleId ? `<#${role.roleId}>` : "None") : "None", true);
+            .addField("Join Role", role ? (role.roleId ? `<@${role.roleId}>` : "None") : "None", true);
         message.channel.send(embed);
     }
 };
