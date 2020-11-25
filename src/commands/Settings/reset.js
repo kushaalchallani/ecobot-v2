@@ -1,8 +1,17 @@
 const Command = require("../../structures/bases/commandBase");
-const { prefixModel, thanklbModel, thanksModel } = require("../../database/models/export/index");
 const { incorrect, success, error } = require("../../utils/export/index");
+const {
+    prefixModel,
+    thanklbModel,
+    thanksModel,
+    joinroleModel,
+    welcomeModel,
+    leaveModel,
+} = require("../../database/models/export/index");
 
-module.exports = class extends Command {
+module.exports = class extends (
+    Command
+) {
     constructor(...args) {
         super(...args, {
             name: "reset",
@@ -56,7 +65,46 @@ module.exports = class extends Command {
                         message.channel
                     );
                 } else if (!data) {
-                    return error("The leaderboard channel is already reseted!", message.channel);
+                    return error("The leaderboard channel is not set", message.channel);
+                }
+            });
+        }
+
+        if (args[0] === "join-role") {
+            joinroleModel.deleteMany({ guildId: message.guild.id }, async (err, data) => {
+                if (err) throw err;
+                if (data) {
+                    return success(`Successfully reseted the joinrole of **${message.guild.name}**`, message.channel);
+                } else if (!data) {
+                    return error("The join role is not set", message.channel);
+                }
+            });
+        }
+
+        if (args[0] === "welcome-channel") {
+            welcomeModel.deleteMany({ guildId: message.guild.id }, async (err, data) => {
+                if (err) throw err;
+                if (data) {
+                    return success(
+                        `Successfully reseted the welcome channel of **${message.guild.name}**`,
+                        message.channel
+                    );
+                } else if (!data) {
+                    return error("The welcome channel is not set", message.channel);
+                }
+            });
+        }
+
+        if (args[0] === "leave-channel") {
+            leaveModel.deleteMany({ guildId: message.guild.id }, async (err, data) => {
+                if (err) throw err;
+                if (data) {
+                    return success(
+                        `Successfully reseted the leave channel of **${message.guild.name}**`,
+                        message.channel
+                    );
+                } else if (!data) {
+                    return error("The leave channel is not set", message.channel);
                 }
             });
         }
