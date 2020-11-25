@@ -7,7 +7,9 @@ const tagRegex = RegExp(/^"([^]+?)(?:" "([^]+))?"$/);
 const hoistedRegex = RegExp(/(\s+)?--(un)?hoist/);
 const Embed = require("../../structures/embed");
 
-module.exports = class extends Command {
+module.exports = class extends (
+    Command
+) {
     constructor(...args) {
         super(...args, {
             name: "tag",
@@ -16,7 +18,6 @@ module.exports = class extends Command {
             cooldown: 20,
             nsfw: false,
             ownerOnly: false,
-            guildOnly: true,
             memberPermission: ["ADMINISTRATOR", "MANAGE_SERVER"],
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             aliases: ["cc", "customcommands"],
