@@ -72,9 +72,10 @@ module.exports = class extends (
 
         const data = await premiumModel.findOne({
             guildID: message.guild.id,
+            premium: true
         });
 
-        if (command.premium && !data.premium) {
+        if (command.premium && !data) {
             return redEmbed(
                 `This command is for patron only. You can find more information by using \`${prefix}premium\` if you are interested.`,
                 message.channel
