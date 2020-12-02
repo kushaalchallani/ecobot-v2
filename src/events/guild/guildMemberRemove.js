@@ -2,7 +2,9 @@ const Event = require("../../structures/bases/eventBase");
 const { leaveModel } = require("../../database/models/export/index");
 const Embed = require("../../structures/embed");
 
-module.exports = class extends Event {
+module.exports = class extends (
+    Event
+) {
     constructor(...args) {
         super(...args, {
             name: "guildMemberRemove",
@@ -10,12 +12,6 @@ module.exports = class extends Event {
     }
 
     async execute(member) {
-        const leaveData = await leaveModel.findOne({
-            guildId: member.guild.id,
-        });
-
-        const channel = member.guild.channels.cache.get(leaveData.channelId);
-
         const oldMembers = member.guild.members.cache.filter((m) => !m.user.bot).size;
 
         const embed = new Embed()
@@ -24,9 +20,17 @@ module.exports = class extends Event {
             .setDescription(`**${member.user.username}** has left the server`)
             .setFooter(`We now have ${oldMembers} members`, member.guild.iconURL());
 
-        if (channel) {
-            channel.send({ embed: embed });
-            return;
-        }
+        leaveModel.findOne(
+            {
+                guildId: member.guild.id,
+            },
+            async (data) => {
+                if (data) {
+                    const channel = member.guild.channels.cache.get(data.channelId);
+                    console.log(data);
+                    channel.send(embed);
+                }
+            }
+        );
     }
 };

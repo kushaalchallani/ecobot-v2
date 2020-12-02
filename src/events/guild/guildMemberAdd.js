@@ -2,24 +2,10 @@ const Event = require("../../structures/bases/eventBase");
 const { welcomeModel, joinroleModel } = require("../../database/models/export/index");
 const Embed = require("../../structures/embed");
 
-module.exports = class extends Event {
-    constructor(...args) {
-        super(...args, {
-            name: "guildMemberAdd",
-        });
-    }
-
+module.exports = class extends (
+    Event
+) {
     async execute(member) {
-        const welcomeData = await welcomeModel.findOne({
-            guildId: member.guild.id,
-        });
-
-        const joinroleData = await joinroleModel.findOne({
-            guildId: member.guild.id,
-        });
-
-        const channel = member.guild.channels.cache.get(welcomeData.channelId);
-
         const array = [
             `Hey **${member.user.username}**, thank for joining!`,
             `Hello there **${member.user.username}**`,
@@ -37,18 +23,31 @@ module.exports = class extends Event {
 
         const embed = new Embed()
             .setColor("#48ff00")
-            .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL())
+            .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL({ dynamic: true }))
             .setDescription(randomMessage)
-            .setFooter(`Member #${newMembers}`, member.guild.iconURL());
+            .setFooter(`Member #${newMembers}`, member.guild.iconURL({ dynamic: true }));
 
-        if (joinroleData) {
-            member.roles.add(joinroleData.roleId);
-            return;
-        }
+        welcomeModel.findOne(
+            {
+                guildId: member.guild.id,
+            },
+            async (data) => {
+                if (data) {
+                    const channel = member.guild.channels.cache.get(data.channelId);
+                    channel.send(embed);
+                }
+            }
+        );
 
-        if (channel) {
-            channel.send({ embed: embed });
-            return;
-        }
+        joinroleModel.findOne(
+            {
+                guildId: member.guild.id,
+            },
+            async (data) => {
+                if (data) {
+                    member.roles.add(data.roleId);
+                }
+            }
+        );
     }
 };
