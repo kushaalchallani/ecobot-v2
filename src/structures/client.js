@@ -4,11 +4,9 @@ const { eventRegistry, commandRegistry } = require("../registries/export/index")
 const Util = require("./util");
 const { suggestion, afk, thanklb } = require("../features/exports/index");
 const { ecoGuildModel, economyModel } = require("../database/models/export/index");
-const ItemManager = require("./ItemManager");
+const ItemManager = require("./itemManager");
 
-module.exports = class EcoBot extends (
-    Client
-) {
+module.exports = class EcoBot extends Client {
     constructor() {
         super({
             disableMentions: "everyone",

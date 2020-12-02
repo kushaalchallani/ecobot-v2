@@ -2,9 +2,7 @@ const Command = require("../../structures/bases/commandBase");
 const prettyMilliseconds = require("pretty-ms");
 const Embed = require("../../structures/embed");
 
-module.exports = class extends (
-    Command
-) {
+module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "daily",
@@ -18,13 +16,13 @@ module.exports = class extends (
         });
     }
 
-    async execute(message, args) {
-        let user = await bot.fetchUser(message.author.id);
+    async execute(message) {
+        const user = await this.client.fetchUser(message.author.id);
         if (Date.parse(user.dailyStreak) + 86400000 > Date.now()) {
-            const embed = new MessageEmbed()
+            const embed = new Embed()
                 .setTitle("Cooldown")
                 .setDescription(
-                    `Woah there, you need to wait \`${prettyMilliseconds(
+                    `Woah there, I cant give you so much money \`${prettyMilliseconds(
                         Date.parse(user.dailyStreak) + 86400000 - Date.now()
                     )}\` before using this command again.
                 
@@ -36,7 +34,7 @@ module.exports = class extends (
             user.dailyStreak = new Date(Date.now());
             user.coinsInWallet += 1000;
             await user.save();
-            const claimed = new MessageEmbed()
+            const claimed = new Embed()
                 .setTitle("Gave you 1000 coins.")
                 .setDescription("Use this command in `24h` to claim your daily reward again!")
                 .setColor("RANDOM");
