@@ -6,9 +6,7 @@ const { prefixModel, tagModel, premiumModel } = require("../../database/models/e
 const { errormsgs } = require("../../json/exports/index");
 const { redEmbed } = require("../../utils/export/index");
 
-module.exports = class extends (
-    Event
-) {
+module.exports = class extends Event {
     constructor(...args) {
         super(...args, {
             name: "message",
@@ -65,6 +63,10 @@ module.exports = class extends (
             return redEmbed("This command can only be used in support server.", message.channel);
         }
 
+        if (command.bankSpace !== 0) {
+            this.client.giveBankSpace(message.author.id, command.bankSpace);
+        }
+
         const errMessage = errormsgs[Math.round(Math.random() * (errormsgs.length - 1))];
         if (command.nsfw && !message.channel.nsfw) {
             return message.channel.send(new Embed().setColor("RED").setDescription(errMessage));
@@ -72,7 +74,7 @@ module.exports = class extends (
 
         const data = await premiumModel.findOne({
             guildID: message.guild.id,
-            premium: true
+            premium: true,
         });
 
         if (command.premium && !data) {
