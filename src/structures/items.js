@@ -1,3 +1,5 @@
+/* eslint-disable no-empty-function */
+/* eslint-disable no-unused-vars */
 const array = [
     {
         name: "Brownie",
@@ -8,7 +10,7 @@ const array = [
         sellAmount: 10,
         price: 30,
         keep: false,
-        run: async (message) => {
+        run: async (bot, message, args) => {
             const brownieRandom = [
                 "You ate a brownie, and the taste of the chocolate watered in your mouth.",
                 "You choked on a brownie and almost died. Be careful!",
@@ -27,6 +29,7 @@ const array = [
         sellAmount: 2000,
         price: 5000,
         keep: true,
+        run: async (bot, message, args) => {},
     },
     {
         name: "Axe",
@@ -37,9 +40,9 @@ const array = [
         sellAmount: 3000,
         price: 10000,
         keep: true,
-        run: async (message) => {
+        run: async (bot, message, args) => {
             const logsAmount = Math.round(Math.random() * 1) + 1;
-            const data = await this.client.fetchUser(message.author.id);
+            const data = await bot.fetchUser(message.author.id);
             message.channel.send(`You swing your axe and chopped **${logsAmount}** logs`);
             const findItem = data.items.find((i) => i.name.toLowerCase() == "log");
             const userInv = data.items.filter((i) => i.name.toLowerCase() !== "log");
@@ -67,6 +70,7 @@ const array = [
         sellAmount: 500,
         price: 0,
         keep: true,
+        run: async (bot, message, args) => {},
     },
     {
         name: "Bank Card",
@@ -77,9 +81,9 @@ const array = [
         sellAmount: 6667,
         price: 20000,
         keep: false,
-        run: async (message) => {
+        run: async (bot, message, args) => {
             const random = Math.ceil(Math.random() * 5000 + 5000);
-            const e = await this.client.giveBankSpace(message.author.id, random);
+            const e = await bot.giveBankSpace(message.author.id, random);
             message.channel.send(
                 `You get a new bank card, which increases your bank space by **${random.toLocaleString()}**. You now have **${e.bankSpace.toLocaleString()}** bank space.`
             );
@@ -94,6 +98,7 @@ const array = [
         sellAmount: 4000,
         price: 15000,
         keep: false,
+        run: async (bot, message, args) => {},
     },
     {
         name: "Rice",
@@ -104,7 +109,7 @@ const array = [
         sellAmount: 20,
         price: 45,
         keep: false,
-        run: async (message) => {
+        run: async (bot, message) => {
             const answers = [
                 "You ate rice and gained 50 IQ",
                 "You ate alot of rice and became an EPIC gamer",
