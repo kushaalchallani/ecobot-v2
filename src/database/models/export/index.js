@@ -11,4 +11,6 @@ module.exports = {
     welcomeModel: require("../welcomeModel"),
     leaveModel: require("../leaveModel"),
     joinroleModel: require("../joinrole"),
+    ecoGuildModel: require("../ecoGuildModel"),
+    economyModel: require("../ecoModel"),
 };
