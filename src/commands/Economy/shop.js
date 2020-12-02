@@ -33,7 +33,7 @@ module.exports = class extends (
             else if (itemss.length <= 15) page = 3;
             else if (itemss.length <= 20) page = 4;
             const shopEmbed = new Embed()
-                .setTitle("Air Shop")
+                .setTitle("Eco Shop")
                 .setDescription(`${items.join("\n\n")}`)
                 .setColor("RANDOM")
                 .setFooter(`Page ${args[0] || 1} of ${page}`);
