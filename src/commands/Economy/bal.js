@@ -1,9 +1,7 @@
 const Command = require("../../structures/bases/commandBase");
 const Embed = require("../../structures/embed");
 
-module.exports = class extends (
-    Command
-) {
+module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "bal",
