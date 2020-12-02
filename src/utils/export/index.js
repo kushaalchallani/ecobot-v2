@@ -3,4 +3,6 @@ module.exports = {
     success: require("../sucess"),
     incorrect: require("../incorrect"),
     redEmbed: require("../redEmbed"),
+    itemss: require("../items"),
+    itemManager: require("../itemManager"),
 };

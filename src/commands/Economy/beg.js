@@ -1,8 +1,6 @@
 const Command = require("../../structures/bases/commandBase");
 
-module.exports = class extends (
-    Command
-) {
+module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "beg",
@@ -12,6 +10,7 @@ module.exports = class extends (
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 10,
+            bankSpace: 15,
             examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
         });
     }

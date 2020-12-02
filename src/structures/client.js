@@ -4,7 +4,7 @@ const { eventRegistry, commandRegistry } = require("../registries/export/index")
 const Util = require("./util");
 const { suggestion, afk, thanklb } = require("../features/exports/index");
 const { ecoGuildModel, economyModel } = require("../database/models/export/index");
-const ItemManager = require("./itemManager");
+const { itemManager } = require("../utils/export/index");
 
 module.exports = class EcoBot extends Client {
     constructor() {
@@ -28,7 +28,7 @@ module.exports = class EcoBot extends Client {
 
         this.economy = economyModel;
 
-        this.items = new ItemManager();
+        this.items = new itemManager();
 
         this.commandsUsed = 0;
     }
