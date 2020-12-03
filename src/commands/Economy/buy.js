@@ -10,7 +10,7 @@ module.exports = class extends Command {
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
-            cooldown: 10,
+            cooldown: 15,
             bankSpace: 0,
             examples: ["buy Cake", "buy Cake 2", "buy Axe"],
             usage: "<Item> [quantity]",
