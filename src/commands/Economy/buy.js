@@ -12,7 +12,7 @@ module.exports = class extends Command {
             nsfw: false,
             cooldown: 15,
             bankSpace: 0,
-            examples: ["buy Cake", "buy Cake 2", "buy Axe"],
+            examples: ["buy Brownie", "buy Brownie 2", "buy Axe"],
             usage: "<Item> [quantity]",
         });
     }
