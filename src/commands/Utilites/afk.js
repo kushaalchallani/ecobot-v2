@@ -22,11 +22,11 @@ module.exports = class extends Command {
 
         if (!reason) return incorrect("Please provide a reason.", message.channel);
 
-        if (reason === "@everyone") {
+        if (reason.toLowerCase() === "@everyone") {
             return error("Please provide another reason", message.channel);
         }
 
-        if (reason === "@here") {
+        if (reason.toLowerCase() === "@here") {
             return error("Please provide another reason", message.channel);
         }
 
