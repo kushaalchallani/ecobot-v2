@@ -1,25 +1,26 @@
 const Command = require("../../structures/bases/commandBase");
-const { itemss } = require("../../utils/export/index");
+const { itemss, error, incorrect, success } = require("../../utils/export/index");
 
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "buy",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            description: "mmmmm the shop",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 10,
             bankSpace: 0,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
+            examples: ["buy Cake", "buy Cake 2", "buy Axe"],
+            usage: "<Item> [quantity]",
         });
     }
 
     async execute(message, args) {
-        const user = await this.client.fetchUser(message.author.id);
+        const user = await this.client.util.fetchUser(message.author.id);
         if (!args.join(" ")) {
-            return message.channel.send("you can't buy nothing lmao");
+            return incorrect("You need buy something! Noob", message.channel);
         }
         if (!args[1]) args[1] = "";
         const item = itemss.find(
@@ -29,10 +30,10 @@ module.exports = class extends Command {
                 x.name.toLowerCase() === `${args[0].toString().toLowerCase()} ${args[1].toString().toLowerCase()}`
         );
         if (!item) {
-            return message.channel.send("You can't buy an item that doesn't exist");
+            return error("You can't buy an item that doesn't exist", message.channel);
         }
         if (item.canBuy == false) {
-            return message.channel.send(":thinking: You can't buy this item");
+            return error(":thinking: You can't buy this item", message.channel);
         }
         let buyAmount = args
             .join(" ")
@@ -41,7 +42,7 @@ module.exports = class extends Command {
         if (!buyAmount) buyAmount = 1;
         else buyAmount = buyAmount[0];
         if (item.price > user.coinsInWallet || buyAmount * item.price > user.coinsInWallet) {
-            return message.channel.send("This is so sad, YOU'RE TOO POOR");
+            return error("This is so sad, YOU'RE TOO POOR", message.channel);
         }
         const founditem = user.items.find((x) => x.name.toLowerCase() === item.name.toLowerCase());
         let array = [];
@@ -64,6 +65,6 @@ module.exports = class extends Command {
         }
         user.coinsInWallet -= parseInt(item.price) * parseInt(buyAmount);
         await user.save();
-        message.channel.send(`You bought **${parseInt(buyAmount).toLocaleString()}** \`${item.name}\``);
+        success(`You bought **${parseInt(buyAmount).toLocaleString()}** \`${item.name}\``, message.channel);
     }
 };
