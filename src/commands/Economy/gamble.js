@@ -13,6 +13,7 @@ module.exports = class extends Command {
             aliases: ["bet"],
             bankSpace: 5,
             cooldown: 60,
+            usage: "<Amount>",
         });
     }
 
