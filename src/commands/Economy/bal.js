@@ -25,7 +25,7 @@ module.exports = class extends Command {
                 (member) => member.user.username === args.slice(0).join(" ") || member.user.username === args[0]
             ) ||
             message.member;
-        const user = await this.client.fetchUser(member.id);
+        const user = await this.client.util.fetchUser(member.id);
         const embed = new Embed()
             .setTitle(`${member.user.username}'s Balance`)
             .setDescription(
