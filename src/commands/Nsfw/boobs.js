@@ -14,7 +14,7 @@ module.exports = class extends Command {
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             aliases: ["boobies", "tits"],
-            premium: true,
+            premium: false,
         });
     }
 
