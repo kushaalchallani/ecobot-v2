@@ -116,7 +116,6 @@ module.exports = class extends Command {
             channel.guild.voice.setSelfDeaf(true);
             play(queueConstruct.songs[0]);
         } catch (error) {
-            console.error(`I could not join the voice channel: ${error}`);
             message.client.queue.delete(message.guild.id);
             await channel.leave();
             return error(`I could not join the voice channel: ${error}`, message.channel);
