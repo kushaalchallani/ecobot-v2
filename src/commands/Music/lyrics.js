@@ -13,7 +13,9 @@ module.exports = class extends Command {
             nsfw: false,
             cooldown: 10,
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
-            memberPermission: ["SEND_MESSAGES", "CONNECT"],
+            memberPermission: ["SEND_MESSAGES"],
+            usage: "<song name>",
+            examples: ["lyrics Despacito", "lyrics Alone"],
         });
     }
 
