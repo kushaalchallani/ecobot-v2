@@ -1,42 +1,41 @@
 const Command = require("../../structures/bases/commandBase");
-
+const { error, incorrect } = require("../../utils/export/index");
 const Embed = require("../../structures/embed");
 
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "gamble",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            description: "Gamble Coins",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
-            nsfw: false,
+            aliases: ["bet"],
             bankSpace: 5,
-            cooldown: 10,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
+            cooldown: 60,
         });
     }
 
     async execute(message, args) {
         const botRoll = Math.floor(Math.random() * 13) + 1;
         const userChoice = Math.floor(Math.random() * 13) + 1;
-        const userData = await this.client.fetchUser(message.author.id);
-        if (userData.passive == true) return message.channel.send("You're in passive mode, turn it off to gamble");
+        const userData = await this.client.util.fetchUser(message.author.id);
+        if (userData.passive == true) return error("You're in passive mode, turn it off to gamble", message.channel);
 
-        if (userData.coinsInWallet == 0) return message.channel.send("You don't have any coins to bet.");
+        if (userData.coinsInWallet == 0) return error("You don't have any coins to bet.", message.channel);
 
         let betAmount = args[0];
 
         if (!betAmount || (isNaN(betAmount) && betAmount !== "all" && betAmount !== "max"))
-            return message.channel.send("So how much coins are syou gambling again?");
+            return incorrect("So how much coins are syou gambling again?", message.channel);
 
-        if (betAmount < 200) return message.channel.send("Sorry bud, you can only gamble **200+** coins");
+        if (betAmount < 200) return error("Sorry bud, you can only gamble **200+** coins", message.channel);
 
         if (betAmount == "all" || betAmount == "max") betAmount = userData.coinsInWallet;
         else betAmount = parseInt(args[0]);
 
         if (betAmount > userData.coinsInWallet) {
-            return message.channel.send("You don't have that much coins lol");
+            return error("You don't have that much coins lol", message.channel);
         }
 
         if (botRoll < userChoice) {
