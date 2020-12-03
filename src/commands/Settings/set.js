@@ -10,9 +10,7 @@ const {
     leaveModel,
 } = require("../../database/models/export/index");
 
-module.exports = class extends (
-    Command
-) {
+module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "set",
@@ -142,7 +140,7 @@ module.exports = class extends (
 
             if (welcome) {
                 welcome.channelId = welcomeChanel.id;
-                welcomeModel.save();
+                welcome.save();
             } else {
                 const newWelcome = new welcomeModel({
                     guildId: message.guild.id,
@@ -173,7 +171,7 @@ module.exports = class extends (
 
             if (role) {
                 role.roleId = joinrole.id;
-                joinroleModel.save();
+                role.save();
             } else {
                 const newRole = new joinroleModel({
                     guildId: message.guild.id,
@@ -204,7 +202,7 @@ module.exports = class extends (
 
             if (leave) {
                 leave.channelId = leaveChanel.id;
-                leaveModel.save();
+                leave.save();
             } else {
                 const newleave = new leaveModel({
                     guildId: message.guild.id,
