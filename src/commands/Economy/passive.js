@@ -10,6 +10,7 @@ module.exports = class extends Command {
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 10,
+            bankSpace: 5,
             examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
         });
     }

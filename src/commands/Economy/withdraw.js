@@ -9,6 +9,7 @@ module.exports = class extends Command {
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
+            bankSpace: 0,
             cooldown: 10,
             examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
         });
