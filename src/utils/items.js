@@ -1,5 +1,7 @@
 /* eslint-disable no-empty-function */
 /* eslint-disable no-unused-vars */
+const { success } = require("./export/index");
+
 const array = [
     {
         name: "Brownie",
@@ -17,7 +19,7 @@ const array = [
                 "The brownie tasted great.",
             ];
             const yes = brownieRandom[Math.floor(Math.random() * brownieRandom.length)];
-            message.channel.send(`${yes}`);
+            success(`${yes}`, message.channel);
         },
     },
     {
@@ -42,8 +44,8 @@ const array = [
         keep: true,
         run: async (bot, message, args) => {
             const logsAmount = Math.round(Math.random() * 1) + 1;
-            const data = await bot.fetchUser(message.author.id);
-            message.channel.send(`You swing your axe and chopped **${logsAmount}** logs`);
+            const data = await this.client.util.fetchUser(message.author.id);
+            success(`You swing your axe and chopped **${logsAmount}** logs`, message.channel);
             const findItem = data.items.find((i) => i.name.toLowerCase() == "log");
             const userInv = data.items.filter((i) => i.name.toLowerCase() !== "log");
             if (findItem) {
@@ -83,9 +85,10 @@ const array = [
         keep: false,
         run: async (bot, message, args) => {
             const random = Math.ceil(Math.random() * 5000 + 5000);
-            const e = await bot.giveBankSpace(message.author.id, random);
-            message.channel.send(
-                `You get a new bank card, which increases your bank space by **${random.toLocaleString()}**. You now have **${e.bankSpace.toLocaleString()}** bank space.`
+            const e = await this.client.util.giveBankSpace(message.author.id, random);
+            success(
+                `You get a new bank card, which increases your bank space by **${random.toLocaleString()}**. You now have **${e.bankSpace.toLocaleString()}** bank space.`,
+                message.channel
             );
         },
     },
@@ -117,7 +120,7 @@ const array = [
                 "You ate too much rice, stop it get some help",
             ];
             const randomAnswer = Math.floor(Math.random() * answers.length);
-            message.channel.send(answers[randomAnswer]);
+            success(answers[randomAnswer], message.channel);
         },
     },
 ];
