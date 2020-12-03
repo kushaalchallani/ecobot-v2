@@ -123,6 +123,48 @@ const array = [
             success(answers[randomAnswer], message.channel);
         },
     },
+
+    {
+        name: "Pickaxe",
+        description: "Mine some Diamonds",
+        canUse: true,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 3000,
+        price: 25000,
+        keep: true,
+        run: async (bot, message, args) => {
+            const Amount = Math.round(Math.random() * 1) + 1;
+            const data = await this.client.util.fetchUser(message.author.id);
+            success(`${message.author} swing their pickaxe and mined **${Amount}** diamond`, message.channel);
+            const findItem = data.items.find((i) => i.name.toLowerCase() == "diamond");
+            const userInv = data.items.filter((i) => i.name.toLowerCase() !== "diamond");
+            if (findItem) {
+                userInv.push({
+                    name: "Diamond",
+                    amount: findItem.amount + Amount,
+                    description: "Sell Diamond to make money.",
+                });
+                data.items = userInv;
+                await data.save();
+            } else {
+                userInv.push({ name: "Diamond", amount: Amount, description: "Sell Diamond to make money." });
+                data.items = userInv;
+                await data.save();
+            }
+        },
+    },
+    {
+        name: "Diamond",
+        description: "Sell Diamond to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 2500,
+        price: 0,
+        keep: true,
+        run: async (bot, message, args) => {},
+    },
 ];
 
 module.exports = array;
