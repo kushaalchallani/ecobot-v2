@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 const Command = require("../../structures/bases/commandBase");
 const { premiumModel } = require("../../database/models/export/index");
 const Embed = require("../../structures/embed");
+const { error } = require("../../utils/export/index");
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -19,7 +21,7 @@ module.exports = class extends Command {
     }
 
     async execute(message, args) {
-        const role = message.member.roles.cache.get("781103196348219402");
+        /* const role = message.member.roles.cache.get("781103196348219402");
         // message.member.roles.cache.get("775630719544328202");
 
         if (!role) {
@@ -41,21 +43,25 @@ module.exports = class extends Command {
             message.channel
                 .awaitMessages(filter, { max: 1, time: 100000, errors: ["time"] })
                 .then((collected) => {
-                    if (data) {
-                        message.channel.send(`Updated Premium to \`${args[0]}\``);
+                    if (isNaN(collected.first())) {
+                        if (data) {
+                            message.channel.send(`Updated Premium to \`${args[0]}\``);
+                        } else {
+                            const premium = new premiumModel({
+                                guildID: collected.first(),
+                                userID: message.author.id,
+                                premium: true,
+                            });
+
+                            premium.save();
+
+                            message.channel.send(`Added Premium to \`${collected.first}\``);
+                        }
                     } else {
-                        const premium = new premiumModel({
-                            guildID: collected.first(),
-                            userID: message.author.id,
-                            premium: true,
-                        });
-
-                        premium.save();
-
-                        message.channel.send(`Added Premium to \`${collected.first}\``);
+                        return error("That is not an Guild ID", message.channel);
                     }
                 })
                 .catch((err) => console.log(err));
-        }
+        } */
     }
 };
