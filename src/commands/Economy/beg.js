@@ -12,7 +12,7 @@ module.exports = class extends Command {
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 40,
-            bankSpace: 15,
+            bankSpace: 10,
         });
     }
 
