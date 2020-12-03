@@ -92,6 +92,6 @@ module.exports = class extends Command {
         ];
         const response = randomMessage[Math.floor(Math.random() * randomMessage.length)];
         await success(`${response}`, message.channel).catch();
-        await this.client.giveCoins(message.author.id, random);
+        await this.client.util.giveCoins(message.author.id, random);
     }
 };

@@ -64,7 +64,7 @@ module.exports = class extends Event {
         }
 
         if (command.bankSpace !== 0) {
-            this.client.giveBankSpace(message.author.id, command.bankSpace);
+            this.client.util.giveBankSpace(message.author.id, command.bankSpace);
         }
 
         const errMessage = errormsgs[Math.round(Math.random() * (errormsgs.length - 1))];
