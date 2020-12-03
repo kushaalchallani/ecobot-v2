@@ -13,15 +13,14 @@ module.exports = class extends Command {
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             ownerOnly: false,
-            guildOnly: true,
+            guildOnly: false,
             cooldown: 15,
         });
     }
 
-    async execute(message) {
-        const role =
-            message.member.roles.cache.get("775630671301312513") ||
-            message.member.roles.cache.get("775630719544328202");
+    async execute(message, args) {
+        const role = message.member.roles.cache.get("781103196348219402");
+        // message.member.roles.cache.get("775630719544328202");
 
         if (!role) {
             return message.channel.send(
@@ -29,8 +28,8 @@ module.exports = class extends Command {
             );
         }
 
-        const data = await premiumModel.findOne({
-            user: message.author.id,
+        const data = premiumModel.findOne({
+            userID: message.author.id,
         });
 
         if (role) {
@@ -43,16 +42,17 @@ module.exports = class extends Command {
                 .awaitMessages(filter, { max: 1, time: 100000, errors: ["time"] })
                 .then((collected) => {
                     if (data) {
-                        data.premium = true;
-                        data.save();
+                        message.channel.send(`Updated Premium to \`${args[0]}\``);
                     } else {
                         const premium = new premiumModel({
                             guildID: collected.first(),
-                            user: message.author.id,
+                            userID: message.author.id,
                             premium: true,
                         });
 
                         premium.save();
+
+                        message.channel.send(`Added Premium to \`${collected.first}\``);
                     }
                 })
                 .catch((err) => console.log(err));

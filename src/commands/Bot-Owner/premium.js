@@ -32,10 +32,10 @@ module.exports = class extends Command {
 
         const data =
             (await premiumModel.findOne({
-                guildID: message.guild.id,
+                guildID: args[1],
             })) ||
             new premiumModel({
-                guildID: message.guild.id,
+                guildID: args[1],
             });
 
         if (args[0].toLowerCase() === "add") {

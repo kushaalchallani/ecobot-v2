@@ -1,13 +1,8 @@
 const mongoose = require("mongoose");
 
-const reqString = {
-    type: String,
-    required: true,
-};
-
 const premiumSchema = mongoose.Schema({
-    userID: reqString,
-    guildID: reqString,
+    userID: String,
+    guildID: String,
     premium: Boolean,
 });
 
