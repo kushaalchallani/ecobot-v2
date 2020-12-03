@@ -16,7 +16,7 @@ module.exports = class extends Command {
             name: "set",
             usage: "<Action> <...arguments>",
             description: "Change the bot settings",
-            aliases: ["setprefix", "changeprefix", "newprefix", "server-settings", "settings"],
+            aliases: ["setprefix", "changeprefix", "newprefix", "server-settings"],
             category: "Settings",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS", "ADMINISTRATOR"],
             memberPermission: ["ADMINISTRATOR", "MANAGE_SERVER"],

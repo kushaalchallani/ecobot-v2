@@ -9,9 +9,7 @@ const {
     joinroleModel,
 } = require("../../database/models/export/index");
 
-module.exports = class extends (
-    Command
-) {
+module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "config",
@@ -22,7 +20,7 @@ module.exports = class extends (
             nsfw: false,
             ownerOnly: false,
             cooldown: 15,
-            aliases: ["rt"],
+            aliases: ["settings"],
         });
     }
     async execute(message) {
