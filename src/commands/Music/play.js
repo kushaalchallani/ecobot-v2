@@ -13,7 +13,7 @@ module.exports = class extends Command {
             category: "Music",
             ownerOnly: false,
             nsfw: false,
-            cooldown: 3,
+            cooldown: 5,
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES", "CONNECT"],
             usage: "<song name>",
