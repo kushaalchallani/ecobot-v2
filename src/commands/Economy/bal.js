@@ -4,15 +4,16 @@ const Embed = require("../../structures/embed");
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
-            name: "bal",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            name: "balance",
+            description: "Check how many coins you have",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 10,
             bankSpace: 0,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
+            usage: "[user]",
+            aliases: ["bal", "coins", "money"],
         });
     }
 
