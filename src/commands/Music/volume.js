@@ -10,7 +10,7 @@ module.exports = class extends Command {
             category: "Music",
             ownerOnly: false,
             nsfw: false,
-            cooldown: 5,
+            cooldown: 7,
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES", "CONNECT"],
             aliases: ["v", "vol"],
