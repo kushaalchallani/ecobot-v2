@@ -16,7 +16,7 @@ module.exports = class extends Command {
     }
 
     async execute(message, args) {
-        const authorData = await this.client.fetchUser(message.author.id);
+        const authorData = await this.client.util.fetchUser(message.author.id);
         if (authorData.passive == true)
             return message.channel.send("You're in passive mode, turn it off to give others coins");
         const member =

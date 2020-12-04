@@ -29,6 +29,10 @@ module.exports = class extends Command {
         if (!args[1]) return incorrect("So you are giving nothing to them???", message.channel);
         const userData = await this.client.util.fetchUser(member.user.id);
         const authoData = await this.client.util.fetchUser(message.author.id);
+        if (authoData.passive == true) {
+            return error("You're in passive mode, turn it off to give others coins", message.channel);
+        }
+
         if (!args[1]) args[1] = "";
         if (!args[2]) args[2] = "";
         const itemToGive = itemss.find(
