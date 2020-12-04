@@ -11,6 +11,7 @@ module.exports = class extends Command {
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
+            premium: true,
             bankSpace: 0,
         });
     }
