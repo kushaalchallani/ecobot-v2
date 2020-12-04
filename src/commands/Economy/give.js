@@ -13,6 +13,7 @@ module.exports = class extends Command {
             bankSpace: 0,
             examples: ["give @Gogeta#2869 420", "give @Gogeta#2869 69", "give @Gogeta#2869 all"],
             usage: "<user> <Amount || All>",
+            aliases: ["share", "sharecoins"],
         });
     }
 
