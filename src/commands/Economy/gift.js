@@ -33,6 +33,10 @@ module.exports = class extends Command {
             return error("You're in passive mode, turn it off to give others coins", message.channel);
         }
 
+        if (userData.passive == true) {
+            return error("That user is in passive mode, they can't recive any coins", message.channel);
+        }
+
         if (!args[1]) args[1] = "";
         if (!args[2]) args[2] = "";
         const itemToGive = itemss.find(
