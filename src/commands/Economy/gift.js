@@ -11,7 +11,7 @@ module.exports = class extends Command {
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             bankSpace: 5,
-            cooldown: 10,
+            cooldown: 20,
             examples: ["gift Brownie", "gift Axe", "gift Brownie 3"],
             usage: "<Item> [Amount]",
         });

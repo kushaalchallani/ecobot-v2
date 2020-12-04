@@ -25,7 +25,7 @@ module.exports = class extends Event {
 
         if (message.content.match(mentionRegex))
             message.channel.send(
-                `My prefix for ${message.guild.name} is \`${prefix}\`.\n> For more info type \`${prefix}\`help`
+                `My prefix for ${message.guild.name} is \`${prefix}\`.\n> For more info type \`${prefix}help\``
             );
 
         const PREFIX = message.content.match(mentionRegexPrefix)

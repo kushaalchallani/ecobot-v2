@@ -5,14 +5,14 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "give",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            description: "Give your coins to a user",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
-            nsfw: false,
-            cooldown: 10,
+            cooldown: 20,
             bankSpace: 0,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
+            examples: ["give @Gogeta#2869 420", "give @Gogeta#2869 69", "give @Gogeta#2869 all"],
+            usage: "<user> <Amount || All>",
         });
     }
 
@@ -41,7 +41,7 @@ module.exports = class extends Command {
         if (isNaN(args[1]) && args[1] != "all") {
             return error("Thats not a valid option", message.channel);
         }
-        const userData = await this.client.fetchUser(member.user.id);
+        const userData = await this.client.util.fetchUser(member.user.id);
         if (userData.passive == true)
             return error("That user is in passive mode, they can't recive any coins", message.channel);
         if (args[1] == "all") {
