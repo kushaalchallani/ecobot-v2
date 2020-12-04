@@ -22,9 +22,9 @@ module.exports = class extends Command {
             const embed = new Embed()
                 .setTitle("**Slow it down!**")
                 .setDescription(
-                    `Woah there, I cant give you so much money. Wait \`${prettyMilliseconds(
+                    `Woah there, Your wifi is down. Wait \`${prettyMilliseconds(
                         Date.parse(user.weeklyStreak) + 604800000 - Date.now()
-                    )}\` before using this command again.
+                    )}\` before hacking again.
             
             The default cooldown on this command is \`1d\``
                 )
