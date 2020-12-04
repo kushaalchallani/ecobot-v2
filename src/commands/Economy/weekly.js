@@ -26,7 +26,7 @@ module.exports = class extends Command {
                         Date.parse(user.weeklyStreak) + 604800000 - Date.now()
                     )}\` before hacking again.
             
-            The default cooldown on this command is \`1d\``
+            The default cooldown on this command is \`1w\``
                 )
                 .setColor(0x3c54b4);
             return message.channel.send(embed);
