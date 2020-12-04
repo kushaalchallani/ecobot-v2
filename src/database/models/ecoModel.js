@@ -12,6 +12,8 @@ const EconomySchema = new mongoose.Schema({
     },
     items: { type: Array, required: false, default: [] },
     dailyStreak: { type: Date, required: false, default: new Date(Date.now() - 86400000) },
+    weeklyStreak: { type: Date, required: false, default: new Date(Date.now() - 604800000) },
+    hackStreak: { type: Date, required: false, default: new Date(Date.now() - 3600000) },
     passive: { type: Boolean, required: false, default: false },
 });
 

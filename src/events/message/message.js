@@ -146,7 +146,7 @@ module.exports = class extends Event {
         }
 
         try {
-            command.execute(message, args, mentionedMember);
+            command.execute(message, args, prefix, mentionedMember);
         } catch (error) {
             console.log(`There was an error while executing a command: ${error}`);
             redEmbed(error, message.channel);
