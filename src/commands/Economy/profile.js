@@ -7,20 +7,20 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "profile",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            description: "See your profile",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             bankSpace: 0,
-            cooldown: 10,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
+            cooldown: 15,
+            usage: "[user]",
         });
     }
 
     async execute(message, args) {
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
-        const user = await this.client.fetchUser(member.user.id);
+        const user = await this.client.util.fetchUser(member.user.id);
 
         if (member.presence.status === "dnd") member.presence.status = "Do Not Disturb";
         if (member.presence.status === "online") member.presence.status = "Online";
@@ -57,9 +57,14 @@ module.exports = class extends Command {
             • Total Items: **${user.items.length.toLocaleString()}**
             • Passive mode: \`${user.passive}\`
             • Next daily reward in: ${pm(Date.parse(user.dailyStreak) + 86400000 - Date.now())}
+            • Next weekly reward in: ${pm(Date.parse(user.weeklyStreak) + 604800000 - Date.now())}
+            • Next monthly reward in: ${pm(Date.parse(user.monthlyStreak) + 2592000000 - Date.now())}
+            • Can hack in: ${pm(Date.parse(user.hackStreak) + 3600000 - Date.now())}
+            • Can Rob in: ${pm(Date.parse(user.robStreak) + 3600000 - Date.now())}
             `,
                 }
             )
+            .setFooter("IF the value is in - you can use the command")
             .setColor("RANDOM");
 
         message.channel.send(profileEmbed);
