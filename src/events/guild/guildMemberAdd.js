@@ -2,9 +2,13 @@ const Event = require("../../structures/bases/eventBase");
 const { welcomeModel, joinroleModel } = require("../../database/models/export/index");
 const Embed = require("../../structures/embed");
 
-module.exports = class extends (
-    Event
-) {
+module.exports = class extends Event {
+    constructor(...args) {
+        super(...args, {
+            name: "guildMemberAdd",
+        });
+    }
+
     async execute(member) {
         const array = [
             `Hey **${member.user.username}**, thank for joining!`,
