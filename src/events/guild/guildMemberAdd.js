@@ -25,33 +25,29 @@ module.exports = class extends Event {
         const randomMessage = array[Math.floor(Math.random() * array.length)];
         const newMembers = member.guild.members.cache.filter((m) => !m.user.bot).size;
 
+        const welcomeData = await welcomeModel.findOne({
+            guildId: member.guild.id,
+        });
+
+        const roleData = await joinroleModel.findOne({
+            guildId: member.guild.id,
+        });
+
+        if (!roleData) return;
+        if (!welcomeData) return;
+
+        const channel = member.guild.channels.cache.find((channel) => channel.id === welcomeData.channelId);
+
         const embed = new Embed()
             .setColor("#48ff00")
             .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL({ dynamic: true }))
             .setDescription(randomMessage)
             .setFooter(`Member #${newMembers}`, member.guild.iconURL({ dynamic: true }));
 
-        welcomeModel.findOne(
-            {
-                guildId: member.guild.id,
-            },
-            async (data) => {
-                if (data) {
-                    const channel = member.guild.channels.cache.get(data.channelId);
-                    channel.send(embed);
-                }
-            }
-        );
-
-        joinroleModel.findOne(
-            {
-                guildId: member.guild.id,
-            },
-            async (data) => {
-                if (data) {
-                    member.roles.add(data.roleId);
-                }
-            }
-        );
+        try {
+            channel.send(embed);
+            member.roles.add(roleData.roleId);
+            // eslint-disable-next-line no-empty
+        } catch (err) {}
     }
 };

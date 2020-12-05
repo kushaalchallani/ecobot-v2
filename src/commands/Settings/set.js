@@ -8,6 +8,7 @@ const {
     welcomeModel,
     joinroleModel,
     leaveModel,
+    logsModel,
 } = require("../../database/models/export/index");
 
 module.exports = class extends Command {
@@ -32,15 +33,24 @@ module.exports = class extends Command {
                 "set welcome-channel #join-leave",
                 "set leave-channel #join-leave",
                 "set join-role @Members",
+                "set message-logs @Members",
             ],
-            subcommands: ["prefix", "thanks-lb", "suggestions", "welcome-channel", "leave-channel", "join-role"],
+            subcommands: [
+                "prefix",
+                "thanks-lb",
+                "suggestions",
+                "welcome-channel",
+                "leave-channel",
+                "join-role",
+                "message-logs",
+            ],
         });
     }
 
     async execute(message, args) {
         if (!args[0]) {
             return incorrect(
-                "Please provide what to set. `prefix` `thanks-lb` `suggestions` `welcome-channel` `leave-channel` `join-role`",
+                "Please provide what to set. `prefix` `thanks-lb` `suggestions` `welcome-channel` `leave-channel` `join-role` `message-logs`",
                 message.channel
             );
         }
@@ -214,6 +224,37 @@ module.exports = class extends Command {
             }
 
             return await success(`Successfully set the leave channel to ${leaveChanel}`, message.channel);
+        }
+
+        if (args[0] === "message-logs") {
+            const log = await logsModel.findOne({
+                guildId: message.guild.id,
+            });
+
+            const logchannel = message.mentions.channels.first();
+
+            if (!logchannel) {
+                return incorrect("You need to specify a leave channel to set", message.channel);
+            }
+
+            if (args[2]) {
+                return error("You can only set 1 leave channel", message.channel);
+            }
+
+            if (log) {
+                log.channelId = logchannel.id;
+                log.save();
+            } else {
+                const newLog = new logsModel({
+                    guildId: message.guild.id,
+                    guildName: message.guild.name,
+                    channelId: logchannel.id,
+                });
+
+                await newLog.save();
+            }
+
+            return await success(`Successfully set the leave channel to ${logchannel}`, message.channel);
         }
     }
 };
