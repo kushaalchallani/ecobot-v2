@@ -1,6 +1,7 @@
 const { promisify } = require("util");
 const path = require("path");
 const glob = promisify(require("glob"));
+const chalk = require("chalk");
 
 module.exports = (client) => {
     return glob(`${path.dirname(require.main.filename)}${path.sep}commands/**/*.js`).then((commands) => {
@@ -14,6 +15,8 @@ module.exports = (client) => {
                     client.aliases.set(alias, command.name);
                 }
             }
+
+            console.log(chalk.magenta("[COMMAND] ") + `"${command.name}" is enabled!`);
         }
     });
 };
