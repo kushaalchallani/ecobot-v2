@@ -1,5 +1,5 @@
 module.exports = {
-    afk: require("../afk"),
-    suggestion: require("../suggestion"),
-    thanklb: require("../thank-lb"),
+    afk: require("../feature/afk"),
+    suggestion: require("../feature/suggestion"),
+    thanklb: require("../feature/thank-lb"),
 };

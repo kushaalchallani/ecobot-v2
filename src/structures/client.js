@@ -40,6 +40,7 @@ module.exports = class EcoBot extends Client {
         thanklb(this);
         afk(this);
         require("../database/database")();
+        require("../features/load-features")();
         super.login(process.env.BOT_TOKEN);
     }
 };

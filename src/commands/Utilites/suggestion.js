@@ -1,5 +1,5 @@
 const Embed = require("../../structures/embed");
-const { statusMessages, suggestionCache } = require("../../features/suggestion");
+const { statusMessages, suggestionCache } = require("../../features/feature/suggestion");
 const Command = require("../../structures/bases/commandBase");
 const { incorrect, error } = require("../../utils/export/index");
 

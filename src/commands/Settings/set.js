@@ -1,5 +1,5 @@
 const Command = require("../../structures/bases/commandBase");
-const { fetchSuggestionChannels } = require("../../features/suggestion");
+const { fetchSuggestionChannels } = require("../../features/feature/suggestion");
 const { incorrect, success, error } = require("../../utils/export/index");
 const {
     prefixModel,

@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { suggestionModel } = require("../database/models/export/index");
+const { suggestionModel } = require("../../database/models/export/index");
 
 const statusMessages = {
     WAITING: {

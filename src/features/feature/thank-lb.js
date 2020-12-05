@@ -1,4 +1,4 @@
-const { thanklbModel, thanksModel } = require("../database/models/export/index");
+const { thanklbModel, thanksModel } = require("../../database/models/export/index");
 
 const fetchTopMembers = async (guildId) => {
     let text = "";

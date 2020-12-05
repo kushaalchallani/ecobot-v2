@@ -1,5 +1,5 @@
-const Embed = require("../structures/embed");
-const { afkModel } = require("../database/models/export/index");
+const Embed = require("../../structures/embed");
+const { afkModel } = require("../../database/models/export/index");
 
 module.exports = (client) => {
     client.on("message", (message) => {
