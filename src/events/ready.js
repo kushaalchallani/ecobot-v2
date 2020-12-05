@@ -1,8 +1,7 @@
 const Event = require("../structures/bases/eventBase");
+const chalk = require("chalk");
 
-module.exports = class extends (
-    Event
-) {
+module.exports = class extends Event {
     constructor(...args) {
         super(...args, {
             name: "ready",
@@ -11,8 +10,10 @@ module.exports = class extends (
     }
 
     async execute() {
-        console.log(this.client.user.tag + " is now online.");
-        console.log(this.client.user.tag + " is in " + this.client.guilds.cache.size + " servers!");
+        console.log(chalk.cyan("[EVENT] ") + this.client.user.tag + " is now online.");
+        console.log(
+            chalk.cyan("[EVENT] ") + this.client.user.tag + " is in " + this.client.guilds.cache.size + " servers!"
+        );
 
         const statuses = [
             { name: "eb!help | @EcoBot for more Info", options: { type: "PLAYING" } },
