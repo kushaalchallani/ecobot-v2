@@ -10,9 +10,9 @@ module.exports = class extends Event {
     }
 
     async execute() {
-        console.log(chalk.cyan("[EVENT] ") + this.client.user.tag + " is now online.");
+        console.log(chalk.cyan("[BOT] ") + this.client.user.tag + " is now online.");
         console.log(
-            chalk.cyan("[EVENT] ") + this.client.user.tag + " is in " + this.client.guilds.cache.size + " servers!"
+            chalk.cyan("[BOT] ") + this.client.user.tag + " is in " + this.client.guilds.cache.size + " servers!"
         );
 
         const statuses = [

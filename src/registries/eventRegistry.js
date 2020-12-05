@@ -1,6 +1,7 @@
 const { promisify } = require("util");
 const path = require("path");
 const glob = promisify(require("glob"));
+const chalk = require("chalk");
 
 module.exports = (client) => {
     return glob(`${path.dirname(require.main.filename)}${path.sep}events/**/*.js`).then((events) => {
@@ -10,6 +11,7 @@ module.exports = (client) => {
             const event = new File(client, name.toLowerCase());
             client.events.set(event.name, event);
             event.emitter[event.type](name, (...args) => event.execute(...args));
+            console.log(chalk.blue("[EVENT] ") + `"${event.name}" is enabled`);
         }
     });
 };
