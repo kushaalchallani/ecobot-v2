@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const Command = require("../../structures/bases/commandBase");
 
 module.exports = class extends Command {
@@ -14,12 +15,9 @@ module.exports = class extends Command {
     }
 
     async execute(message) {
-        const member = message.mentions.members.first();
-        try {
-            member.roles.add("781103196348219402");
-        } catch (err) {
-            const errorChannel = this.client.channels.cache.get("784313737040756756");
-            errorChannel.send(err.message);
-        }
+        // const member = message.mentions.members.first();
+        // const role = message.guild.roles.cache.get("781103196348219402");
+        // if (role.position >= message.guild.me.roles.highest.position) return;
+        // member.roles.add(role);
     }
 };

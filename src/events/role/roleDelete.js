@@ -19,6 +19,8 @@ module.exports = class extends Event {
 
         const channel = role.guild.channels.cache.find((channel) => channel.id === data.channelId);
 
+        if (!channel) return;
+
         try {
             const fetchLogs = await role.guild.fetchAuditLogs({
                 limit: 1,

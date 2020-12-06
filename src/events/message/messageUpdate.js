@@ -24,6 +24,8 @@ module.exports = class extends Event {
 
         const channel = oldMessage.guild.channels.cache.find((channel) => channel.id === data.channelId);
 
+        if (!channel) return;
+
         channel.send(
             new Embed()
                 .setColor("#FFFF00")

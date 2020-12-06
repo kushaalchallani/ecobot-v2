@@ -20,6 +20,8 @@ module.exports = class extends Event {
 
         const channel = member.guild.channels.cache.find((channel) => channel.id === leaveData.channelId);
 
+        if (!channel) return;
+
         const embed = new Embed()
             .setColor("#ff0000")
             .setAuthor(`${member.user.tag}`, member.user.displayAvatarURL())

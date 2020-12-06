@@ -20,6 +20,8 @@ module.exports = class extends Event {
 
         const channel = Brole.guild.channels.cache.find((channel) => channel.id === data.channelId);
 
+        if (!channel) return;
+
         try {
             const fetchLogs = await Brole.guild.fetchAuditLogs({
                 limit: 1,

@@ -31,6 +31,8 @@ module.exports = class extends Event {
 
         const channel = message.guild.channels.cache.find((channel) => channel.id === data.channelId);
 
+        if (!channel) return;
+
         const embed = new Embed()
             .setColor("#FF0000")
             .setAuthor(
