@@ -237,11 +237,11 @@ module.exports = class extends Command {
             const logchannel = message.mentions.channels.first();
 
             if (!logchannel) {
-                return incorrect("You need to specify a leave channel to set", message.channel);
+                return incorrect("You need to specify a log channel to set", message.channel);
             }
 
             if (args[2]) {
-                return error("You can only set 1 leave channel", message.channel);
+                return error("You can only set 1 logs channel", message.channel);
             }
 
             if (log) {

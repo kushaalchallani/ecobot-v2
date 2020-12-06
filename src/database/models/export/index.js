@@ -14,5 +14,5 @@ module.exports = {
     ecoGuildModel: require("../ecoGuildModel"),
     economyModel: require("../ecoModel"),
     logsModel: require("../Messagelogs"),
-    roleModel: require("../roleLogs"),
+    rolelogsModel: require("../roleLogs"),
 };
