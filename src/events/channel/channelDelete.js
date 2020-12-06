@@ -24,7 +24,7 @@ module.exports = class extends Event {
         try {
             const fetchLogs = await channel.guild.fetchAuditLogs({
                 limit: 1,
-                type: "CHANNEL_CREATE",
+                type: "CHANNEL_DELETE",
             });
 
             const log = fetchLogs.entries.first();
@@ -34,12 +34,12 @@ module.exports = class extends Event {
             if (channel.type === "text") {
                 sendchannel.send(
                     new Embed()
-                        .setColor("#00FF00")
+                        .setColor("#FF0000")
                         .setAuthor(
                             `${executor.username}#${executor.discriminator} (${executor.id})`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(`Text Channel \`${channel.name}\` has been created`)
+                        .setDescription(`Text Channel \`${channel.name}\` has been deleted`)
                         .setTimestamp(Date.now())
                 );
             }
@@ -47,12 +47,12 @@ module.exports = class extends Event {
             if (channel.type === "news") {
                 sendchannel.send(
                     new Embed()
-                        .setColor("#00FF00")
+                        .setColor("#FF0000")
                         .setAuthor(
                             `${executor.username}#${executor.discriminator} (${executor.id})`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(`Announcement Channel \`${channel.name}\` has been created`)
+                        .setDescription(`Announcement Channel \`${channel.name}\` has been deleted`)
                         .setTimestamp(Date.now())
                 );
             }
@@ -60,12 +60,12 @@ module.exports = class extends Event {
             if (channel.type === "voice") {
                 sendchannel.send(
                     new Embed()
-                        .setColor("#00FF00")
+                        .setColor("#FF0000")
                         .setAuthor(
                             `${executor.username}#${executor.discriminator} (${executor.id})`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(`Voice Channel \`${channel.name}\` has been created`)
+                        .setDescription(`Announcement Channel \`${channel.name}\` has been deleted`)
                         .setTimestamp(Date.now())
                 );
             }
