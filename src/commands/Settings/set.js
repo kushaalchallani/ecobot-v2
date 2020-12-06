@@ -9,6 +9,7 @@ const {
     joinroleModel,
     leaveModel,
     logsModel,
+    rolelogsModel,
 } = require("../../database/models/export/index");
 
 module.exports = class extends Command {
@@ -33,7 +34,8 @@ module.exports = class extends Command {
                 "set welcome-channel #join-leave",
                 "set leave-channel #join-leave",
                 "set join-role @Members",
-                "set message-logs @Members",
+                "set message-logs #message-logs",
+                "set role-logs #role-logs",
             ],
             subcommands: [
                 "prefix",
@@ -43,6 +45,7 @@ module.exports = class extends Command {
                 "leave-channel",
                 "join-role",
                 "message-logs",
+                "role-logs",
             ],
         });
     }
@@ -50,7 +53,7 @@ module.exports = class extends Command {
     async execute(message, args) {
         if (!args[0]) {
             return incorrect(
-                "Please provide what to set. `prefix` `thanks-lb` `suggestions` `welcome-channel` `leave-channel` `join-role` `message-logs`",
+                "Please provide what to set. `prefix` `thanks-lb` `suggestions` `welcome-channel` `leave-channel` `join-role` `message-logs` `role-logs`",
                 message.channel
             );
         }
@@ -237,11 +240,11 @@ module.exports = class extends Command {
             const logchannel = message.mentions.channels.first();
 
             if (!logchannel) {
-                return incorrect("You need to specify a log channel to set", message.channel);
+                return incorrect("You need to specify a message log channel to set", message.channel);
             }
 
             if (args[2]) {
-                return error("You can only set 1 logs channel", message.channel);
+                return error("You can only set 1 message logs channel", message.channel);
             }
 
             if (log) {
@@ -258,6 +261,37 @@ module.exports = class extends Command {
             }
 
             return await success(`Successfully set the message log channel to ${logchannel}`, message.channel);
+        }
+
+        if (args[0] === "role-logs") {
+            const log = await rolelogsModel.findOne({
+                guildId: message.guild.id,
+            });
+
+            const logchannel = message.mentions.channels.first();
+
+            if (!logchannel) {
+                return incorrect("You need to specify a role log channel to set", message.channel);
+            }
+
+            if (args[2]) {
+                return error("You can only set 1 role log channel", message.channel);
+            }
+
+            if (log) {
+                log.channelId = logchannel.id;
+                log.save();
+            } else {
+                const newLog = new rolelogsModel({
+                    guildId: message.guild.id,
+                    guildName: message.guild.name,
+                    channelId: logchannel.id,
+                });
+
+                await newLog.save();
+            }
+
+            return await success(`Successfully set the role log channel to ${logchannel}`, message.channel);
         }
     }
 };
