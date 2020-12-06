@@ -1,7 +1,7 @@
 require("dotenv/config");
 const Event = require("../../structures/bases/eventBase");
 const Embed = require("../../structures/embed");
-const { logsModel } = require("../../database/models/export/index");
+const { rolelogsModel } = require("../../database/models/export/index");
 
 module.exports = class extends Event {
     constructor(...args) {
@@ -11,7 +11,7 @@ module.exports = class extends Event {
     }
 
     async execute(role) {
-        const data = await logsModel.findOne({
+        const data = await rolelogsModel.findOne({
             guildId: role.guild.id,
         });
 
