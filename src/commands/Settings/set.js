@@ -254,7 +254,10 @@ module.exports = class extends Command {
                 await newLog.save();
             }
 
-            return await success(`Successfully set the leave channel to ${logchannel}`, message.channel);
+            return await success(
+                `Successfully set the message log channel to ${logchannel}\n\nMake the the bot has an higher role than the role you want toy give`,
+                message.channel
+            );
         }
     }
 };
