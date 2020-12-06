@@ -385,6 +385,11 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
 
+aybabtu@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/aybabtu/-/aybabtu-1.1.6.tgz#b4336d6baffb48efc5058bff0c5c923ee5bd2326"
+  integrity sha512-oJSgLvAig8S72HPeK91jGQbT+b2HxaPqbHhRBliuPgVG+6Qx8iIJGR1XNbIyTzdynO4WiVChiOox9VxIpPBABw==
+
 balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
