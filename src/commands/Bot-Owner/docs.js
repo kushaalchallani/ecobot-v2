@@ -11,7 +11,6 @@ module.exports = class extends Command {
             category: "Bot Owner",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
-            guildOnly: true,
             nsfw: false,
             cooldown: 10,
             examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],

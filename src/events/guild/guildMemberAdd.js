@@ -44,10 +44,7 @@ module.exports = class extends Event {
             .setDescription(randomMessage)
             .setFooter(`Member #${newMembers}`, member.guild.iconURL({ dynamic: true }));
 
-        try {
-            channel.send(embed);
-            member.roles.add(roleData.roleId);
-            // eslint-disable-next-line no-empty
-        } catch (err) {}
+        channel.send(embed);
+        member.roles.add(roleData.roleId);
     }
 };
