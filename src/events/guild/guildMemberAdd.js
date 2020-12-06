@@ -37,10 +37,9 @@ module.exports = class extends Event {
         if (!welcomeData) return;
 
         const channel = member.guild.channels.cache.find((channel) => channel.id === welcomeData.channelId);
-        const role = roleData.roleId;
+        const role = member.guild.roles.cache.get(roleData.roleId);
 
         if (!channel) return;
-        if (!role) return;
 
         const embed = new Embed()
             .setColor("#48ff00")
@@ -49,6 +48,8 @@ module.exports = class extends Event {
             .setFooter(`Member #${newMembers}`, member.guild.iconURL({ dynamic: true }));
 
         channel.send(embed);
+
+        if (role.position >= member.guild.me.roles.highest.position) return;
 
         member.roles.add(role);
     }
