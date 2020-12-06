@@ -192,7 +192,10 @@ module.exports = class extends Command {
                 await newRole.save();
             }
 
-            return await success(`Successfully set the join role to ${joinrole}`, message.channel);
+            return await success(
+                `Successfully set the join role to ${joinrole}\n\nMake the the bot has an higher role than the role you want to give to the members`,
+                message.channel
+            );
         }
 
         if (args[0] === "leave-channel") {
@@ -254,10 +257,7 @@ module.exports = class extends Command {
                 await newLog.save();
             }
 
-            return await success(
-                `Successfully set the message log channel to ${logchannel}\n\nMake the the bot has an higher role than the role you want toy give`,
-                message.channel
-            );
+            return await success(`Successfully set the message log channel to ${logchannel}`, message.channel);
         }
     }
 };
