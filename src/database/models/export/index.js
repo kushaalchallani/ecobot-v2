@@ -15,4 +15,5 @@ module.exports = {
     economyModel: require("../ecoModel"),
     logsModel: require("../Messagelogs"),
     rolelogsModel: require("../roleLogs"),
+    channellogsModel: require("../channelLogs"),
 };
