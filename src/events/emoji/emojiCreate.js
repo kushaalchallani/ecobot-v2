@@ -40,14 +40,11 @@ module.exports = class extends Event {
                             `${executor.username}#${executor.discriminator} (${executor.id})`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(`
-                        **Emoji Name:** ${emoji.name}
-                        **Emoji ID:** ${emoji.id}
-                        `
+                        .setDescription(`Emoji ${emoji.name}(${emoji.id}) has been created`
                         )
                         .setTitle("Emoji Created")
                         .setURL(emoji.url)
-                        .setThumbnail(emoji.url)
+                        
                         .setTimestamp(Date.now())
                 );
             } else {
