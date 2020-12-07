@@ -11,6 +11,7 @@ const {
     logsModel,
     rolelogsModel,
     channellogsModel,
+    serverlogsModel,
 } = require("../../database/models/export/index");
 
 module.exports = class extends Command {
@@ -38,6 +39,7 @@ module.exports = class extends Command {
                 "set message-logs #message-logs",
                 "set role-logs #role-logs",
                 "set channel-logs #channel-logs",
+                "set server-logs #server-logs",
             ],
             subcommands: [
                 "prefix",
@@ -49,6 +51,7 @@ module.exports = class extends Command {
                 "message-logs",
                 "role-logs",
                 "channel-logs",
+                "server-logs",
             ],
         });
     }
@@ -56,7 +59,7 @@ module.exports = class extends Command {
     async execute(message, args) {
         if (!args[0]) {
             return incorrect(
-                "Please provide what to set. `prefix` `thanks-lb` `suggestions` `welcome-channel` `leave-channel` `join-role` `message-logs` `role-logs` `channel-logs`",
+                "Please provide what to set. `prefix` `thanks-lb` `suggestions` `welcome-channel` `leave-channel` `join-role` `message-logs` `role-logs` `channel-logs` `server-logs`",
                 message.channel
             );
         }
@@ -326,6 +329,37 @@ module.exports = class extends Command {
             }
 
             return await success(`Successfully set the channel logs channel to ${logchannel}`, message.channel);
+        }
+
+        if (args[0] === "server-logs") {
+            const log = await serverlogsModel.findOne({
+                guildId: message.guild.id,
+            });
+
+            const logchannel = message.mentions.channels.first();
+
+            if (!logchannel) {
+                return incorrect("You need to specify a server log channel to set", message.channel);
+            }
+
+            if (args[2]) {
+                return error("You can only set 1 server log channel", message.channel);
+            }
+
+            if (log) {
+                log.channelId = logchannel.id;
+                log.save();
+            } else {
+                const newLog = new serverlogsModel({
+                    guildId: message.guild.id,
+                    guildName: message.guild.name,
+                    channelId: logchannel.id,
+                });
+
+                await newLog.save();
+            }
+
+            return await success(`Successfully set the server logs channel to ${logchannel}`, message.channel);
         }
     }
 };
