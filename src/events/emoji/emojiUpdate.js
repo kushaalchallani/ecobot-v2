@@ -40,8 +40,7 @@ module.exports = class extends Event {
                             executor.avatarURL({ dynamic: true })
                         )
                         .setDescription(
-                            `Emoji ${oldEmoji.name}(${oldEmoji.id}) has been Updated
-                        **Before:** [${oldEmoji.name}](${oldEmoji.url})
+                            `**Before:** [${oldEmoji.name}](${oldEmoji.url})
                         **After:** [${newEmoji.name}](${newEmoji.url})`
                         )
                         .setTitle("Emoji Updated")
@@ -56,8 +55,7 @@ module.exports = class extends Event {
                             executor.avatarURL({ dynamic: true })
                         )
                         .setDescription(
-                            `Emoji ${oldEmoji.name}(${oldEmoji.id}) has been Deleted
-                        **Before:** [${oldEmoji.name}](${oldEmoji.url})
+                            `**Before:** [${oldEmoji.name}](${oldEmoji.url})
                         **After:** [${newEmoji.name}](${newEmoji.url})`
                         )
                         .setTitle("Emoji Updated")
