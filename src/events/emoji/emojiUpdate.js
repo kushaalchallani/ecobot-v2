@@ -6,55 +6,61 @@ const { serverlogsModel } = require("../../database/models/export/index");
 module.exports = class extends Event {
     constructor(...args) {
         super(...args, {
-            name: "emojiCreate",
+            name: "emojiUpdate",
         });
     }
 
-    async execute(emoji) {
+    async execute(oldEmoji, newEmoji) {
         const data = await serverlogsModel.findOne({
-            guildId: emoji.guild.id,
+            guildId: oldEmoji.guild.id,
         });
 
         if (!data) return;
 
-        const channel = emoji.guild.channels.cache.find((channel) => channel.id === data.channelId);
+        const channel = oldEmoji.guild.channels.cache.find((channel) => channel.id === data.channelId);
 
         if (!channel) return;
 
         try {
-            const fetchLogs = await emoji.guild.fetchAuditLogs({
+            const fetchLogs = await oldEmoji.guild.fetchAuditLogs({
                 limit: 1,
-                type: "EMOJI_DELETE",
+                type: "EMOJI_",
             });
 
             const log = fetchLogs.entries.first();
 
             const { executor } = log;
 
-            if (emoji.animated) {
+            if (oldEmoji.animated) {
                 channel.send(
                     new Embed()
-                        .setColor("#FF0000")
+                        .setColor("#FFFF00")
                         .setAuthor(
                             `${executor.username}#${executor.discriminator} (${executor.id})`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(`Emoji ${emoji.name}(${emoji.id}) has been Deleted`)
-                        .setTitle("Emoji Deleted")
-                        .setURL(emoji.url)
+                        .setDescription(
+                            `Emoji ${oldEmoji.name}(${oldEmoji.id}) has been Updated
+                        **Before:** [${oldEmoji.name}](${oldEmoji.url})
+                        **After:** [${newEmoji.name}](${newEmoji.url})`
+                        )
+                        .setTitle("Emoji Updated")
                         .setTimestamp(Date.now())
                 );
             } else {
                 channel.send(
                     new Embed()
-                        .setColor("#FF0000")
+                        .setColor("#FFFF00")
                         .setAuthor(
                             `${executor.username}#${executor.discriminator} (${executor.id})`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(`Emoji ${emoji.name}(${emoji.id}) has been Deleted`)
-                        .setTitle("Emoji Deleted")
-                        .setURL(emoji.url)
+                        .setDescription(
+                            `Emoji ${oldEmoji.name}(${oldEmoji.id}) has been Deleted
+                        **Before:** [${oldEmoji.name}](${oldEmoji.url})
+                        **After:** [${newEmoji.name}](${newEmoji.url})`
+                        )
+                        .setTitle("Emoji Updated")
                         .setTimestamp(Date.now())
                 );
             }
