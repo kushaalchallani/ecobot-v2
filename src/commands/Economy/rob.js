@@ -4,14 +4,15 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "rob",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            description: "Rob an user and get some money",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
-            cooldown: 10,
+            cooldown: 60,
             bankSpace: 5,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
+            examples: ["rob @Gogeta#2869", "rob 485716273901338634", "rob Gogeta"],
+            usage: "<user>",
         });
     }
 
