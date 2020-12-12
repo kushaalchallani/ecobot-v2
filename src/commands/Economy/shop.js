@@ -6,14 +6,15 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "shop",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            description: "View the item you can buy",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 10,
             bankSpace: 0,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
+            examples: ["shop", "shop Axe", "shop Brownie"],
+            usage: "[item]",
         });
     }
 
@@ -24,7 +25,7 @@ module.exports = class extends Command {
             if (!args[0]) {
                 amount = 5;
             }
-            let items = this.client.items.list().filter((x) => x.canBuy === true);
+            let items = this.client.util.items.list().filter((x) => x.canBuy === true);
             items = items.slice(amount - 5, amount);
             items = items.map((x) => `**${x.name}** -- __${x.price.toLocaleString()} coins__\n${x.description}`);
             if (itemss.length <= 5) page = 1;

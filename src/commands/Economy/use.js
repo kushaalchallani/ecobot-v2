@@ -5,19 +5,19 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "use",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            description: "Use the items you bought from the shop",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 10,
             bankSpace: 0,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
+            examples: ["use Brownie", "use Axe"],
         });
     }
 
     async execute(message, args) {
-        const user = await this.client.fetchUser(message.author.id);
+        const user = await this.client.util.fetchUser(message.author.id);
         if (!args.join(" ")) {
             return message.channel.send("you can't use nothing lmao");
         }
