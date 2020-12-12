@@ -4,7 +4,8 @@
   "description": "Better version od Ecbot",
   "main": "./src/bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/bot.js",
+    "start": "node ./src/bot.js"
   },
   "author": "kcplayz",
   "license": "ISC",
