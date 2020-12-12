@@ -17,7 +17,7 @@ module.exports = class extends Command {
     }
 
     async execute(message, args) {
-        const user = await this.client.fetchUser(message.author.id);
+        const user = await this.client.util.fetchUser(message.author.id);
         if (user.passive == true) return message.channel.send("You're in passive mode, turn that off to rob others");
         const member =
             message.mentions.members.first() ||
@@ -32,7 +32,7 @@ module.exports = class extends Command {
 
         if (devs.includes(member.user.id)) return message.channel.send("You can't rob the bot devs lol.");
 
-        const robbedUser = await this.client.fetchUser(member.id);
+        const robbedUser = await this.client.util.fetchUser(member.id);
         if (robbedUser.passive == true) return message.channel.send("Leave them alone... they are in passive mode");
         if (robbedUser.coinsInWallet < 201) {
             return message.channel.send("This user doesn't have much coins, I wouldn't rob them");
