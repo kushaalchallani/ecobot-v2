@@ -4,19 +4,21 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "withdraw",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            description: "Get money into your wallet from your bank",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
+            cooldown: 15,
             bankSpace: 0,
-            cooldown: 10,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
+            examples: ["withdraw 100", "withdraw max", "withdraw all"],
+            usage: "<Amount>",
+            aliases: ["with"],
         });
     }
 
     async execute(message, args) {
-        const data = await this.client.fetchUser(message.author.id);
+        const data = await this.client.util.fetchUser(message.author.id);
 
         if (args.join(" ") === "all" || args.join(" ") === "max") {
             data.coinsInWallet += data.coinsInBank;
