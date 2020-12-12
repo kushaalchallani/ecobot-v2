@@ -6,14 +6,13 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "rich",
-            description: "Search discord api documentation.",
-            category: "Bot Owner",
+            description: "View the money leaderboard",
+            category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 10,
             bankSpace: 0,
-            examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
         });
     }
 
