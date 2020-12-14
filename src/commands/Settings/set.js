@@ -47,7 +47,7 @@ module.exports = class extends Command {
                 "suggestions",
                 "welcome-channel",
                 "leave-channel",
-                "join-role",
+                "joinrole",
                 "message-logs",
                 "role-logs",
                 "channel-logs",
@@ -59,7 +59,7 @@ module.exports = class extends Command {
     async execute(message, args) {
         if (!args[0]) {
             return incorrect(
-                "Please provide what to set. `prefix` `thanks-lb` `suggestions` `welcome-channel` `leave-channel` `join-role` `message-logs` `role-logs` `channel-logs` `server-logs`",
+                "Please provide what to set. `prefix` `thanks-lb` `suggestions` `welcome-channel` `leave-channel` `joinrole` `message-logs` `role-logs` `channel-logs` `server-logs`",
                 message.channel
             );
         }
