@@ -17,4 +17,5 @@ module.exports = {
     rolelogsModel: require("../roleLogs"),
     channellogsModel: require("../channelLogs"),
     serverlogsModel: require("../serverLogs"),
+    messageModel: require("../reactionrole"),
 };

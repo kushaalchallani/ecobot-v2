@@ -891,7 +891,7 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
-discord.js@^12.4.1:
+discord.js@^12.5.1:
   version "12.5.1"
   resolved "https://registry.yarnpkg.com/discord.js/-/discord.js-12.5.1.tgz#992b45753e3815526a279914ccc281d3496f5990"
   integrity sha512-VwZkVaUAIOB9mKdca0I5MefPMTQJTNg0qdgi1huF3iwsFwJ0L5s/Y69AQe+iPmjuV6j9rtKoG0Ta0n9vgEIL6w==
@@ -2413,10 +2413,10 @@ node-fzf@~0.5.1:
     string-width "~2.1.1"
     ttys "0.0.3"
 
-nodemon@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.6.tgz#1abe1937b463aaf62f0d52e2b7eaadf28cc2240d"
-  integrity sha512-4I3YDSKXg6ltYpcnZeHompqac4E6JeAMpGm8tJnB9Y3T0ehasLa4139dJOcCrB93HHrUMsCrKtoAlXTqT5n4AQ==
+nodemon@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/nodemon/-/nodemon-2.0.7.tgz#6f030a0a0ebe3ea1ba2a38f71bf9bab4841ced32"
+  integrity sha512-XHzK69Awgnec9UzHr1kc8EomQh4sjTQ8oRf8TsGrSmHDx9/UmiGG9E/mM3BuTfNeFwdNBvrqQq/RHL0xIeyFOA==
   dependencies:
     chokidar "^3.2.2"
     debug "^3.2.6"
