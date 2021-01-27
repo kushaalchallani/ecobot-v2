@@ -1,4 +1,4 @@
-const { messageModel } = require("../../database/models/export/index");
+const { reactionroleModel } = require("../../database/models/export/index");
 const cache = {};
 const fetchCache = (guildId) => cache[guildId] || [];
 const addToCache = async (guildId, message, emoji, roleId) => {
@@ -50,7 +50,7 @@ module.exports = async (client) => {
         handleReaction(reaction, user, false);
     });
 
-    const results = await messageModel.find();
+    const results = await reactionroleModel.find();
 
     for (const result of results) {
         const { guildId, channelId, roles, messageId } = result;
@@ -58,14 +58,14 @@ module.exports = async (client) => {
 
         if (!guild) {
             console.log(`Removing guild ID "${guildId}" from the database `);
-            await messageModel.deleteOne({ guildId });
+            await reactionroleModel.deleteOne({ guildId });
         }
 
         const channel = await guild.channels.cache.get(channelId);
 
         if (!channel) {
             console.log(`Removing channel ID "${channelId}" from the database `);
-            await messageModel.deleteOne({ channelId });
+            await reactionroleModel.deleteOne({ channelId });
         }
 
         try {
@@ -84,7 +84,7 @@ module.exports = async (client) => {
             }
         } catch (e) {
             console.log(`Removing Message ID "${messageId}" from the database `);
-            await messageModel.deleteOne({ messageId });
+            await reactionroleModel.deleteOne({ messageId });
         }
     }
 };

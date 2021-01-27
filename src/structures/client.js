@@ -2,7 +2,7 @@ require("dotenv/config");
 const { Client, Collection } = require("discord.js");
 const { eventRegistry, commandRegistry } = require("../registries/export/index");
 const Util = require("./util");
-const { suggestion, afk, thanklb, reactionrole } = require("../features/feature/exports/index");
+const { suggestion, afk, thanklb } = require("../features/exports/index");
 const { itemManager } = require("../utils/export/index");
 const { economyModel } = require("../database/models/export/index");
 
@@ -39,7 +39,6 @@ module.exports = class EcoBot extends Client {
         suggestion(this);
         thanklb(this);
         afk(this);
-        reactionrole(this);
         require("../database/database")();
         require("../features/load-features")();
         super.login(process.env.BOT_TOKEN);

@@ -1,7 +1,7 @@
 const Command = require("../../structures/bases/commandBase");
 const { incorrect } = require("../../utils/export/index");
 const { fetchCache, addToCache } = require("../../features/feature/reactionrole");
-const { messageModel } = require("../../database/models/export/index");
+const { reactionroleModel } = require("../../database/models/export/index");
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -49,7 +49,7 @@ module.exports = class extends Command {
 
             addToCache(guild.id, newMessage);
 
-            new messageModel({
+            new reactionroleModel({
                 guildId: guild.id,
                 messageId: newMessage.id,
                 channelId: targetChannel.id,
@@ -140,7 +140,7 @@ module.exports = class extends Command {
                 messageId: fetchedMessage.id,
             };
 
-            await messageModel.findOneAndUpdate(
+            await reactionroleModel.findOneAndUpdate(
                 obj,
                 {
                     ...obj,
