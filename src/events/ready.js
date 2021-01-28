@@ -3,6 +3,7 @@ const chalk = require("chalk");
 const express = require("express");
 const app = express();
 const port = 3000 || 3001;
+const path = require("path");
 
 module.exports = class extends Event {
     constructor(...args) {
@@ -29,24 +30,26 @@ module.exports = class extends Event {
             this.client.user.setActivity(status.name, status.options);
         }, 30000);
 
-        const clientDetails = {
-            guilds: this.client.guilds.cache.size,
-            users: this.client.users.cache.size,
-            channels: this.client.channels.cache.size,
-        };
-
         // ---------------------------------------------------------------------------------------------------------------------------------
         // --------------------------------------------Website------------------------------------------------------------------
         // ---------------------------------------------------------------------------------------------------------------------------------
 
+        app.use(express.static(path.join(__dirname, "..", "website")));
+
         app.get("/", (req, res) => {
-            res.status(200).send("Main Page");
+            res.status(200).sendFile(path.join(__dirname, "..", "website", "index.html"));
         });
 
-        app.get("/info", (req, res) => {
-            res.status(200).send(clientDetails);
+        app.get("*", (req, res) => {
+            res.sendFile(path.join(__dirname, "..", "website", "404.html"));
         });
 
-        app.listen(port);
+        app.get("/error", (req, res) => {
+            res.status(200).sendFile(path.join(__dirname, "..", "website", "404.html"));
+        });
+
+        app.listen(port, () => {
+            console.log(chalk.green("[WEBSITE] ") + "Website in now Online at " + `localhost:${port}`);
+        });
     }
 };
