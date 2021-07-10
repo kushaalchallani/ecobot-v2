@@ -1,4 +1,7 @@
 const Command = require("../../structures/bases/commandBase");
+const CurrencySystem = require("currency-system");
+const { error, incorrect, success } = require("../../utils/export/index");
+const cs = new CurrencySystem();
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -9,76 +12,52 @@ module.exports = class extends Command {
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
-            cooldown: 60,
-            bankSpace: 5,
-            examples: ["rob @Gogeta#2869", "rob 485716273901338634", "rob Gogeta"],
+            examples: ["rob @Gogeta#2869", "rob 485716273901338634"],
             usage: "<user>",
         });
     }
 
     async execute(message, args) {
-        const user = await this.client.util.fetchUser(message.author.id);
-        if (user.passive == true) return message.channel.send("You're in passive mode, turn that off to rob others");
-        const member =
-            message.mentions.members.first() ||
-            message.guild.members.cache.get(args.join(" ")) ||
-            message.guild.members.cache.find(
-                (member) => member.user.username.toLowerCase() === args.join(" ").toString().toLowerCase()
-            );
-        if (!member) {
-            return message.channel.send("You think you can rob nobody?");
+        let user;
+        if (message.mentions.users.first()) {
+            user = message.mentions.users.first();
+        } else if (args[0]) {
+            user = message.guild.members.cache.get(args[0]);
+            if (user) user = user.user;
         }
-        const devs = ["485716273901338634"];
 
-        if (devs.includes(member.user.id)) return message.channel.send("You can't rob the bot devs lol.");
+        if (user.bot || user === this.client.user) return error("This user is a bot.", message.channel);
+        if (!user) return incorrect("Sorry, you forgot to mention somebody.", message.channel);
+        if (user === message.author) return error("You can't rob yourself", message.channel);
 
-        const robbedUser = await this.client.util.fetchUser(member.id);
-        if (robbedUser.passive == true) return message.channel.send("Leave them alone... they are in passive mode");
-        if (robbedUser.coinsInWallet < 201) {
-            return message.channel.send("This user doesn't have much coins, I wouldn't rob them");
-        }
-        if (user.items.find((x) => x.name == "Lucky Clover")) {
-            const newInv = user.items.filter((i) => i.name != "Lucky Clover");
-            const bypass = user.items.find((i) => i.name == "Lucky Clover");
-            if (bypass.amount == 1) {
-                user.items = newInv;
-            } else {
-                newInv.push({ name: "Lucky Clover", amount: bypass.amount - 1, description: bypass.description });
-                user.items = newInv;
-            }
-        } else {
-            const random = Math.floor(Math.random() * 5);
-            if (random === 3) {
-                message.channel.send(`You tried to rob **${member.user.tag}** but got caught! Better luck next time.`);
-                return true;
-            }
-        }
-        const array = robbedUser.items.filter((x) => x.name !== "Wallet Lock");
-        const walletLock = robbedUser.items.find((x) => x.name === "Wallet Lock");
-        if (walletLock) {
-            message.channel.send(
-                `You tried to rob **${member.user.tag}**, but they had a **Wallet Lock**. Try again next time.`
+        const result = await cs.rob({
+            user: message.author,
+            user2: user,
+            guild: message.guild,
+            minAmount: 100,
+            successPercentage: 5,
+            cooldown: 1800,
+            maxRob: 2500,
+        });
+        if (result.error) {
+            if (result.type === "time")
+                return error(`You have already robbed recently Try again in \`${result.time}\``, message.channel);
+            if (result.type === "low-money")
+                return error(`You need atleast \`$${result.minAmount}\` to rob somebody.`, message.channel);
+            if (result.type === "low-wallet")
+                return error(
+                    `${result.user2.username} have less than \`$${result.minAmount}\` to rob.`,
+                    message.channel
+                );
+            if (result.type === "caught")
+                return success(
+                    `${message.author.username} you robbed **${result.user2.username}** and got caught and you payed \`$${result.amount}\` to **${result.user2.username}**!`,
+                    message.channel
+                );
+        } else if (result.type === "success")
+            return success(
+                `**${message.author.username}** you robbed **${result.user2.username}** and got away with \`${result.amount}\`!`,
+                message.channel
             );
-            if (walletLock.amount === 1) {
-                robbedUser.items = array;
-                await robbedUser.save();
-            } else {
-                array.push({
-                    name: "Wallet Lock",
-                    amount: walletLock.amount - 1,
-                    description: walletLock.description,
-                });
-                robbedUser.items = array;
-                await robbedUser.save();
-            }
-            return true;
-        }
-        const randomAmount = Math.round(Math.random() * robbedUser.coinsInWallet);
-        user.coinsInWallet += randomAmount;
-        robbedUser.coinsInWallet -= randomAmount;
-        await user.save();
-        await robbedUser.save();
-        message.channel.send(`:moneybag: You stole **${randomAmount.toLocaleString()}** coins from ${member}!`);
-        return true;
     }
 };

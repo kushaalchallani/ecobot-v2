@@ -1,6 +1,7 @@
 const Command = require("../../structures/bases/commandBase");
-const { error, incorrect } = require("../../utils/export/index");
-const Embed = require("../../structures/embed");
+const { error, incorrect, success } = require("../../utils/export/index");
+const CurrencySystem = require("currency-system");
+const cs = new CurrencySystem();
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -10,71 +11,51 @@ module.exports = class extends Command {
             category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
-            aliases: ["bet"],
-            bankSpace: 5,
-            cooldown: 60,
+            aliases: ["bet", "gambling"],
             usage: "<Amount>",
         });
     }
 
     async execute(message, args) {
-        const botRoll = Math.floor(Math.random() * 13) + 1;
-        const userChoice = Math.floor(Math.random() * 13) + 1;
-        const userData = await this.client.util.fetchUser(message.author.id);
-        if (userData.passive == true) return error("You're in passive mode, turn it off to gamble", message.channel);
+        const money = args.join(" ");
+        if (isNaN(money)) return incorrect("Amount is not a number.", message.channel);
 
-        if (userData.coinsInWallet == 0) return error("You don't have any coins to bet.", message.channel);
-
-        let betAmount = args[0];
-
-        if (!betAmount || (isNaN(betAmount) && betAmount !== "all" && betAmount !== "max"))
-            return incorrect("So how much coins are syou gambling again?", message.channel);
-
-        if (betAmount < 200) return error("Sorry bud, you can only gamble **200+** coins", message.channel);
-
-        if (betAmount == "all" || betAmount == "max") betAmount = userData.coinsInWallet;
-        else betAmount = parseInt(args[0]);
-
-        if (betAmount > userData.coinsInWallet) {
-            return error("You don't have that much coins lol", message.channel);
-        }
-
-        if (botRoll < userChoice) {
-            const wonCoins = Math.round((Math.random() * userChoice + betAmount / 4) * 1.1);
-            userData.coinsInWallet += parseInt(wonCoins);
-            await userData.save();
-            const wonEmbed = new Embed()
-                .setColor("GREEN")
-                .setDescription(
-                    `Bot rolled: **${botRoll}**\nYou rolled: **${userChoice}**\nWin Rate: **${
-                        Math.round(userChoice - botRoll) * 10
-                    }%**\nYou won: **${wonCoins.toLocaleString()}** coins`
-                )
-                .setTitle("You Won!");
-            message.channel.send(wonEmbed);
-        } else if (botRoll == userChoice) {
-            userData.coinsInWallet -= betAmount / 2;
-            await userData.save();
-            const tieEmbed = new Embed()
-                .setColor("YELLOW")
-                .setDescription(
-                    `Bot rolled: **${botRoll}**\nYou rolled: **${userChoice}**\nYou lost: **${(
-                        betAmount / 2
-                    ).toLocaleString()}**`
-                )
-                .setTitle("Its a tie!");
-            message.channel.send(tieEmbed);
-        } else if (botRoll > userChoice) {
-            const lostCoins = betAmount;
-            userData.coinsInWallet -= parseInt(betAmount);
-            await userData.save();
-            const lostEmbed = new Embed()
-                .setColor("RED")
-                .setDescription(
-                    `Bot rolled: **${botRoll}**\nYou rolled: **${userChoice}**\nYou lost: **${lostCoins.toLocaleString()}** coins`
-                )
-                .setTitle("You lost!");
-            message.channel.send(lostEmbed);
+        const result = await cs.gamble({
+            user: message.author,
+            guild: message.guild,
+            amount: money,
+            minAmount: 30,
+            cooldown: 1,
+        });
+        if (result.error) {
+            if (result.type == "amount") return incorrect("Please insert an amount first.", message.channel);
+            if (result.type == "nan") return error("The amount was not a number.", message.channel);
+            if (result.type == "low-money")
+                return error(
+                    `You don't have enough money. You need \`$${result.neededMoney}\` more to perform the action. `,
+                    message.channel
+                );
+            if (result.type == "gamble-limit")
+                return error(
+                    `You don't have enough money for gambling. The minimum was \`$${result.minAmount}\`.`,
+                    message.channel
+                );
+            if (result.type == "time")
+                return error(
+                    `Wooo that is too fast. You need to wait \`${result.second} second(s)\` before you can gamble again.`,
+                    message.channel
+                );
+        } else {
+            if (result.type == "lost")
+                return success(
+                    `Ahh, no. You lose \`$${result.amount}\`. You've \`$${result.wallet}\` left. Good luck next time.`,
+                    message.channel
+                );
+            if (result.type == "won")
+                return success(
+                    `Woohoo! You won \`$${result.amount}\`! You've \`$${result.wallet}\`. Good luck, have fun!`,
+                    message.channel
+                );
         }
     }
 };

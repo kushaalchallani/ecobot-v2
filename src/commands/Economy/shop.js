@@ -1,6 +1,7 @@
 const Command = require("../../structures/bases/commandBase");
-const { itemss } = require("../../utils/export/index");
 const Embed = require("../../structures/embed");
+const CurrencySystem = require("currency-system");
+const cs = new CurrencySystem();
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -12,51 +13,18 @@ module.exports = class extends Command {
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 10,
-            bankSpace: 0,
-            examples: ["shop", "shop Axe", "shop Brownie"],
-            usage: "[item]",
         });
     }
 
-    async execute(message, args) {
-        if (!args.join(" ") || !isNaN(args.join(" "))) {
-            let amount = 5 * parseInt(args[0]);
-            let page;
-            if (!args[0]) {
-                amount = 5;
-            }
-            let items = this.client.util.items.list().filter((x) => x.canBuy === true);
-            items = items.slice(amount - 5, amount);
-            items = items.map((x) => `**${x.name}** -- __${x.price.toLocaleString()} coins__\n${x.description}`);
-            if (itemss.length <= 5) page = 1;
-            else if (itemss.length <= 10) page = 2;
-            else if (itemss.length <= 15) page = 3;
-            else if (itemss.length <= 20) page = 4;
-            const shopEmbed = new Embed()
-                .setTitle("Eco Shop")
-                .setDescription(`${items.join("\n\n")}`)
-                .setColor("RANDOM")
-                .setFooter(`Page ${args[0] || 1} of ${page}`);
-            message.channel.send(shopEmbed);
-        } else {
-            const item = itemss.find((x) => x.name.toLowerCase() === args.join(" ").toString().toLowerCase());
-            if (!item) {
-                return message.channel.send("Can't send an item that doesn't exist lmao");
-            }
-            let e;
-            if (!item.canBuy) e = "Can't buy this item.";
-            else {
-                e = `**${item.price.toLocaleString()}** coins`;
-            }
-            const embed = new Embed()
-                .setTitle(item.name)
-                .setDescription(
-                    `${
-                        item.description
-                    }\n\n**Price**: ${e}\n**Sell Amount**: **${item.sellAmount.toLocaleString()}** coins`
-                )
-                .setColor("RANDOM");
-            message.channel.send(embed);
+    async execute(message) {
+        const result = await cs.getShopItems({
+            guild: message.guild,
+        });
+        const inv = result.inventory;
+        const embed = new Embed().setDescription("Shop!").setColor("RANDOM");
+        for (const key in inv) {
+            embed.addField(`${parseInt(key) + 1} - **${inv[key].name}:**`, `Price: ${inv[key].price}`);
         }
+        message.channel.send(embed);
     }
 };

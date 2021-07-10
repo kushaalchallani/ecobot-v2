@@ -19,7 +19,6 @@ module.exports = class extends Event {
 
         const channel = emoji.guild.channels.cache.find((channel) => channel.id === data.channelId);
 
-
         if (!channel) return;
 
         try {
@@ -32,39 +31,35 @@ module.exports = class extends Event {
 
             const { executor } = log;
 
-            if(emoji.animated) {
+            if (emoji.animated) {
                 channel.send(
                     new Embed()
-                        .setColor("#FFFF00")
+                        .setColor("GREEN")
                         .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
+                            `${executor.username}#${executor.discriminator}`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(`Emoji ${emoji.name}(${emoji.id}) has been created`
-                        )
+                        .setDescription(`Animated Emoji **${emoji.name}** has been created`)
                         .setTitle("Emoji Created")
-                        .setURL(emoji.url)
-                        
+                        .setThumbnail(emoji.url)
                         .setTimestamp(Date.now())
+                        .setFooter(`ID: ${emoji.id}`)
                 );
             } else {
                 channel.send(
                     new Embed()
-                        .setColor("#FFFF00")
+                        .setColor("GREEN")
                         .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
+                            `${executor.username}#${executor.discriminator}`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(
-                        `Emoji ${emoji.name}(${emoji.id}) has been created`
-                        )
+                        .setDescription(`Emoji **${emoji.name}** has been created`)
                         .setTitle("Emoji Created")
-                        .setURL(emoji.url)
+                        .setThumbnail(emoji.url)
                         .setTimestamp(Date.now())
+                        .setFooter(`ID: ${emoji.id}`)
                 );
             }
-
-            
         } catch (err) {
             console.log(err);
         }

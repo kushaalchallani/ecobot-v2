@@ -63,10 +63,6 @@ module.exports = class extends Event {
             return redEmbed("This command can only be used in support server.", message.channel);
         }
 
-        if (command.bankSpace !== 0) {
-            this.client.util.giveBankSpace(message.author.id, command.bankSpace);
-        }
-
         const errMessage = errormsgs[Math.round(Math.random() * (errormsgs.length - 1))];
         if (command.nsfw && !message.channel.nsfw) {
             return message.channel.send(new Embed().setColor("RED").setDescription(errMessage));
@@ -114,7 +110,7 @@ module.exports = class extends Event {
                                     command.name
                                 }\` command.\nThe default cooldown is \`${
                                     command.cooldown
-                                }\`\n\nWhile you wait, go check out our [Twitter](https://www.twitter.com/itz__kcplayz), [YouTube](https://www.youtube.com/kcplayz), and [Patreon](https://patreon.com/Ecoobot)
+                                }\` second(s)\n\nWhile you wait, go check out our [Twitter](https://www.twitter.com/itz__kcplayz), [YouTube](https://www.youtube.com/kcplayz), and [Patreon](https://patreon.com/Ecoobot)
                                 `
                             )
                     );
@@ -125,7 +121,7 @@ module.exports = class extends Event {
             setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
         }
 
-        if (command.memberPermission && !message.member.hasPermission(command.memberPermission)) {
+        if (command.memberPermission && !message.member.permissions.has(command.memberPermission)) {
             const memberPerms = command.memberPermission
                 .map((perm) => `\`${perm.toLowerCase().replace(/_/g, " ")}\``)
                 .join(", ");
@@ -135,7 +131,7 @@ module.exports = class extends Event {
             );
         }
 
-        if (command.botPermission && !message.guild.me.hasPermission(command.botPermission)) {
+        if (command.botPermission && !message.guild.me.permissions.has(command.botPermission)) {
             const botPermissions = command.botPermission
                 .map((perm) => `\`${perm.toLowerCase().replace(/_/g, " ")}\``)
                 .join(", ");

@@ -1,5 +1,6 @@
-/* eslint-disable no-unused-vars */
 const Command = require("../../structures/bases/commandBase");
+const CurrencySystem = require("currency-system");
+const cs = new CurrencySystem();
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -14,10 +15,21 @@ module.exports = class extends Command {
         });
     }
 
-    async execute(message) {
-        // const member = message.mentions.members.first();
-        // const role = message.guild.roles.cache.get("781103196348219402");
-        // if (role.position >= message.guild.me.roles.highest.position) return;
-        // member.roles.add(role);
+    async execute(message, args) {
+        let user;
+        if (message.mentions.users.first()) {
+            user = message.mentions.users.first();
+        } else if (args[0]) {
+            user = message.guild.members.cache.get(args[0]);
+            if (user) user = user.user;
+        } else if (!args[0]) {
+            user = message.author;
+        }
+
+        const result = await cs.balance({
+            user: user,
+            guild: message.guild,
+        });
+        message.channel.send(`${user.tag}, \n have $${result.wallet} in you wallet and $${result.bank} in there bank.`);
     }
 };

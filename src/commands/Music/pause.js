@@ -1,4 +1,4 @@
-const { redEmbed } = require("../../utils/export/index");
+const { error } = require("../../utils/export/index");
 const Command = require("../../structures/bases/commandBase");
 const Embed = require("../../structures/embed");
 
@@ -22,11 +22,10 @@ module.exports = class extends Command {
             serverQueue.playing = false;
             serverQueue.connection.dispatcher.pause();
             const embed = new Embed()
-                .setDescription("⏸ Paused the music for you!")
                 .setColor("YELLOW")
                 .setAuthor("Music has been paused!", "https://i.imgur.com/tZwBdli.gif");
             return message.channel.send(embed);
         }
-        return redEmbed("There is nothing playing in this server.", message.channel);
+        return error("There is nothing playing in this server.", message.channel);
     }
 };

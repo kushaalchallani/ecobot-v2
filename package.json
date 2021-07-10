@@ -13,7 +13,9 @@
     "aybabtu": "^1.1.6",
     "chalk": "^4.1.0",
     "common-tags": "^1.8.0",
-    "discord.js": "^12.5.1",
+    "currency-system": "^2.6.10",
+    "discord-buttons": "^4.0.0",
+    "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "ffmpeg": "0.0.4",
@@ -23,10 +25,11 @@
     "got": "^11.8.0",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
-    "mongoose": "^5.10.11",
+    "mongoose": "^5.12.2",
     "ms": "^2.1.2",
     "node-fetch": "^2.6.1",
     "novelcovid": "^3.0.0",
+    "nuggies": "^1.2.51",
     "opusscript": "0.0.7",
     "os": "^0.1.1",
     "path": "^0.12.7",
@@ -35,12 +38,12 @@
     "solenolyrics": "^5.0.0",
     "util": "^0.12.3",
     "weather-js": "^2.0.0",
-    "yt-search": "^2.4.2",
-    "ytdl-core": "^4.0.3"
+    "yt-search": "^2.9.0",
+    "ytdl-core": "^4.8.3"
   },
   "devDependencies": {
     "eslint": "^7.12.1",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.9",
     "prettier": "^2.2.1"
   }
 }

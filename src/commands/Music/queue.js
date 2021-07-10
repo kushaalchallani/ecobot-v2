@@ -1,4 +1,4 @@
-const { redEmbed } = require("../../utils/export/index");
+const { error } = require("../../utils/export/index");
 const Command = require("../../structures/bases/commandBase");
 const Embed = require("../../structures/embed");
 const { prefixModel } = require("../../database/models/export/index");
@@ -24,7 +24,7 @@ module.exports = class extends Command {
             : this.client.prefix;
 
         const serverQueue = message.client.queue.get(message.guild.id);
-        if (!serverQueue) return redEmbed("There is nothing playing in this server.", message.channel);
+        if (!serverQueue) return error("There is nothing playing in this server.", message.channel);
 
         const queue = new Embed()
             .setAuthor("Server Songs Queue", "https://i.imgur.com/tZwBdli.gif")
@@ -39,8 +39,7 @@ module.exports = class extends Command {
                         return `**-** ${song.title}`;
                     })
                     .join("\n")
-            )
-            .setFooter("Currently Server Volume is " + serverQueue.volume);
+            );
         if (serverQueue.songs.length === 1)
             queue.setDescription(`No songs to play next add songs by \`\`${prefix}play <song_name>\`\``);
         message.channel.send(queue);

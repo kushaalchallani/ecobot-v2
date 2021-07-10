@@ -27,13 +27,7 @@ module.exports = class extends Command {
 
             .addField("Support Server", "[Here](https://discord.gg/ZfeUuHn)", true)
             .addField("Twitter", "[Here](https://twitter.com/itz__kcplayz)", true)
-            .addField("YouTube", "[Here](https://youtube.com/kcplayz)", true)
-            .addField("Patreon", "[Here](https://patreon.com/Ecoobot)", true)
-            .addField(
-                "AmongCord",
-                "[Here](https://discord.com/oauth2/authorize?client_id=725328824933548044&scope=bot&permissions=8)",
-                true
-            );
+            .addField("Patreon", "[Here](https://patreon.com/Ecoobot)", true);
         message.channel.send(embed);
     }
 };

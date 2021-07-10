@@ -39,7 +39,7 @@ module.exports = class extends Command {
                 "❯ Permissions",
                 role.permissions
                     .toArray()
-                    .map((perm) => "• " + this.client.util.capitalize(perm.toLowerCase().replace(/_/g, " ")))
+                    .map((perm) => "• " + this.client.util.capitalise(perm.toLowerCase().replace(/_/g, " ")))
             );
 
         message.channel.send({ embed: embed });

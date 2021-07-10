@@ -1,70 +1,45 @@
 const Command = require("../../structures/bases/commandBase");
-const { itemss, error, incorrect, success } = require("../../utils/export/index");
+const { error, incorrect, success } = require("../../utils/export/index");
+const CurrencySystem = require("currency-system");
+const cs = new CurrencySystem();
 
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "buy",
-            description: "mmmmm the shop",
+            description: "Buy Items from the shop",
             category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 15,
-            bankSpace: 0,
-            examples: ["buy Brownie", "buy Brownie 2", "buy Axe"],
-            usage: "<Item> [quantity]",
         });
     }
 
     async execute(message, args) {
-        const user = await this.client.util.fetchUser(message.author.id);
-        if (!args.join(" ")) {
-            return incorrect("You need buy something! Noob", message.channel);
-        }
-        if (!args[1]) args[1] = "";
-        const item = itemss.find(
-            (x) =>
-                x.name.toLowerCase() === args.join(" ").toString().toLowerCase() ||
-                x.name.toLowerCase() === args[0].toString().toLowerCase() ||
-                x.name.toLowerCase() === `${args[0].toString().toLowerCase()} ${args[1].toString().toLowerCase()}`
-        );
-        if (!item) {
-            return error("You can't buy an item that doesn't exist", message.channel);
-        }
-        if (item.canBuy == false) {
-            return error(":thinking: You can't buy this item", message.channel);
-        }
-        let buyAmount = args
-            .join(" ")
-            .toString()
-            .match(/([1-9][0-9]*)/);
-        if (!buyAmount) buyAmount = 1;
-        else buyAmount = buyAmount[0];
-        if (item.price > user.coinsInWallet || buyAmount * item.price > user.coinsInWallet) {
-            return error("This is so sad, YOU'RE TOO POOR", message.channel);
-        }
-        const founditem = user.items.find((x) => x.name.toLowerCase() === item.name.toLowerCase());
-        let array = [];
-        array = user.items.filter((x) => x.name !== item.name);
-        if (founditem) {
-            array.push({
-                name: item.name,
-                amount: parseInt(founditem.amount) + parseInt(buyAmount),
-                description: item.description,
+        const thing = args[0];
+        if (!thing) return incorrect("Please provide item number", message.channel);
+        if (isNaN(thing)) return incorrect("Please provide valid item number", message.channel);
+        success("Please type `yes` to confirm paying", message.channel);
+        const col = await message.channel.awaitMessages((msg) => msg.author.id == message.author.id, {
+            max: 1,
+        });
+        if (col.first().content.toLowerCase() === "yes") {
+            const result = await cs.buy({
+                user: message.author,
+                guild: message.guild,
+                item: parseInt(args[0]),
             });
-            user.items = array;
-            await user.save();
-        } else {
-            user.items.push({
-                name: item.name,
-                amount: buyAmount,
-                description: item.description,
-            });
-            await user.save();
-        }
-        user.coinsInWallet -= parseInt(item.price) * parseInt(buyAmount);
-        await user.save();
-        success(`You bought **${parseInt(buyAmount).toLocaleString()}** \`${item.name}\``, message.channel);
+            if (result.error) {
+                if (result.type === "No-Item") return error("Please provide valid item number", message.channel);
+                if (result.type === "Invalid-Item") return error("item does not exists", message.channel);
+                if (result.type === "low-money")
+                    return error("**You don't have enough balance to buy this item!**", message.channel);
+            } else
+                return success(
+                    `Successfully bought  **${result.inventory.name}** for \`$${result.inventory.price}\``,
+                    message.channel
+                );
+        } else success("**Purchase Cancelled!**", message.channel);
     }
 };

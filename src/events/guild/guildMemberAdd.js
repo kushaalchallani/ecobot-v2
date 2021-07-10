@@ -1,5 +1,5 @@
 const Event = require("../../structures/bases/eventBase");
-const { welcomeModel, joinroleModel } = require("../../database/models/export/index");
+const { welcomeModel, joinroleModel, tempMuteModel } = require("../../database/models/export/index");
 const Embed = require("../../structures/embed");
 
 module.exports = class extends Event {
@@ -52,5 +52,22 @@ module.exports = class extends Event {
         if (role.position >= member.guild.me.roles.highest.position) return;
 
         member.roles.add(role);
+
+        // tempmute role add
+
+        const muteDoc = await tempMuteModel.findOne({
+            guildID: member.guild.id,
+            memberID: member.id,
+        });
+
+        if (muteDoc) {
+            const muteRole = member.guild.roles.cache.find((r) => r.name === "Muted");
+
+            if (muteRole) member.roles.add(muteRole).catch((err) => console.log(err));
+
+            muteDoc.memberRoles = [];
+
+            await muteDoc.save().catch((err) => console.log(err));
+        }
     }
 };

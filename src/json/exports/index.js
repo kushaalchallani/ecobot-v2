@@ -10,4 +10,5 @@ module.exports = {
     replies: require("../replies.json"),
     verification: require("../verification.json"),
     nsfw: require("../nsfw.json"),
+    sacrifice: require("../sacrifice.json"),
 };

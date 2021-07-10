@@ -16,6 +16,8 @@ module.exports = class extends Event {
 
         const { author } = oldMessage;
 
+        if (oldMessage.author.bot) return;
+
         const data = await logsModel.findOne({
             guildId: oldMessage.guild.id,
         });
@@ -26,19 +28,17 @@ module.exports = class extends Event {
 
         if (!channel) return;
 
-        channel.send(
-            new Embed()
-                .setColor("#FFFF00")
-                .setAuthor(
-                    `${author.username}#${author.discriminator} (${author.id})`,
-                    author.avatarURL({ dynamic: true })
-                )
-                .setDescription(
-                    `Message ${oldMessage.id} edited in ${oldMessage.channel}
-                **Before:** ${oldMessage.content}
-                **After:** ${newMessage.content}`
-                )
-                .setTimestamp(Date.now())
-        );
+        const embed = new Embed()
+            .setColor("YELLOW")
+            .setAuthor(`${author.username}#${author.discriminator}`, author.avatarURL({ dynamic: true }))
+            .setDescription(
+                `**Message edited in ${oldMessage.channel}** [Jump to Message](${oldMessage.url})\n\n
+        **Before:** \n${oldMessage.content}
+        **After:** \n${newMessage.content}`
+            )
+            .setTimestamp(Date.now())
+            .setFooter(`Author: ${author.id}`);
+
+        channel.send(embed);
     }
 };

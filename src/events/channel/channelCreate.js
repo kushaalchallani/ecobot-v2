@@ -11,6 +11,9 @@ module.exports = class extends Event {
     }
 
     async execute(channel) {
+        if (!channel.guild) return;
+        if (!channel.content) return;
+
         const data = await channellogsModel.findOne({
             guildId: channel.guild.id,
         });
@@ -22,24 +25,13 @@ module.exports = class extends Event {
         if (!sendchannel) return;
 
         try {
-            const fetchLogs = await channel.guild.fetchAuditLogs({
-                limit: 1,
-                type: "CHANNEL_CREATE",
-            });
-
-            const log = fetchLogs.entries.first();
-
-            const { executor } = log;
-
             if (channel.type === "text") {
                 sendchannel.send(
                     new Embed()
                         .setColor("#00FF00")
-                        .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
-                            executor.avatarURL({ dynamic: true })
-                        )
-                        .setDescription(`Text Channel \`${channel.name}\` has been created`)
+                        .setAuthor(channel.guild.name, channel.guild.iconURL())
+                        .setDescription(`**Text Channel Created: \`#${channel.name}\`**`)
+                        .setFooter(`ID: ${channel.id}`)
                         .setTimestamp(Date.now())
                 );
             }
@@ -48,11 +40,9 @@ module.exports = class extends Event {
                 sendchannel.send(
                     new Embed()
                         .setColor("#00FF00")
-                        .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
-                            executor.avatarURL({ dynamic: true })
-                        )
-                        .setDescription(`Announcement Channel \`${channel.name}\` has been created`)
+                        .setAuthor(channel.guild.name, channel.guild.iconURL())
+                        .setDescription(`**Announcement Channel Created: \`#${channel.name}\`**`)
+                        .setFooter(`ID: ${channel.id}`)
                         .setTimestamp(Date.now())
                 );
             }
@@ -61,13 +51,19 @@ module.exports = class extends Event {
                 sendchannel.send(
                     new Embed()
                         .setColor("#00FF00")
-                        .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
-                            executor.avatarURL({ dynamic: true })
-                        )
-                        .setDescription(`Voice Channel \`${channel.name}\` has been created`)
+                        .setAuthor(channel.guild.name, channel.guild.iconURL())
+                        .setDescription(`**Voice Channel Created: \`#${channel.name}\`**`)
+                        .setFooter(`ID: ${channel.id}`)
                         .setTimestamp(Date.now())
                 );
+            }
+            if (channel.type === "store") {
+                new Embed()
+                    .setColor("#00FF00")
+                    .setAuthor(channel.guild.name, channel.guild.iconURL())
+                    .setDescription(`**Store Channel Created: \`#${channel.name}\`**`)
+                    .setFooter(`ID: ${channel.id}`)
+                    .setTimestamp(Date.now());
             }
         } catch (err) {
             console.log(err);

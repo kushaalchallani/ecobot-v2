@@ -1,15 +1,18 @@
 require("dotenv/config");
-const { Client, Collection } = require("discord.js");
+const { Client, Collection, Intents } = require("discord.js");
 const { eventRegistry, commandRegistry } = require("../registries/export/index");
 const Util = require("./util");
-const { suggestion, afk, thanklb } = require("../features/exports/index");
-const { itemManager } = require("../utils/export/index");
-const { economyModel } = require("../database/models/export/index");
+const { suggestion, afk, thanklb, clickMenu, ghostPingDetector } = require("../features/feature/exports/index");
+const CurrencySystem = require("currency-system");
+const cs = new CurrencySystem();
 
 module.exports = class EcoBot extends Client {
     constructor() {
         super({
-            disableMentions: "everyone",
+            allowedMentions: {
+                parse: ["users", "roles"],
+            },
+            intents: Intents.ALL,
         });
 
         this.events = new Collection();
@@ -20,17 +23,20 @@ module.exports = class EcoBot extends Client {
 
         this.cooldowns = new Collection();
 
+        this.author = new Collection();
+
         this.queue = new Map();
 
         this.util = new Util(this);
 
         this.prefix = process.env.PREFIX;
 
-        this.economy = economyModel;
-
-        this.items = new itemManager();
-
         this.commandsUsed = 0;
+
+        // Economy
+        cs.setMongoURL(process.env.mongo_uri);
+        cs.setDefaultWalletAmount(100);
+        cs.setDefaultBankAmount(1000);
     }
 
     async start() {
@@ -39,6 +45,8 @@ module.exports = class EcoBot extends Client {
         suggestion(this);
         thanklb(this);
         afk(this);
+        clickMenu(this);
+        ghostPingDetector(this);
         require("../database/database")();
         require("../features/load-features")();
         super.login(process.env.BOT_TOKEN);

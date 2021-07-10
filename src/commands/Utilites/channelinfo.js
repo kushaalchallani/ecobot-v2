@@ -26,7 +26,7 @@ module.exports = class extends Command {
             .setDescription(`Info on **${channel.name}** (ID: ${channel.id})`)
             .setThumbnail(channel.guild.iconURL({ dynamic: true, format: "png" }))
             .addField("❯ Info", [
-                `**• Type:** \`${this.client.util.capitalize(channel.type)}\``,
+                `**• Type:** \`${this.client.util.capitalise(channel.type)}\``,
                 `**• Topic:** \`${
                     channel.topic
                         ? channel.topic.length > 50

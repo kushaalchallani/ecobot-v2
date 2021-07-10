@@ -1,18 +1,19 @@
 const Command = require("../../structures/bases/commandBase");
-const { success } = require("../../utils/export/index");
+const { success, error } = require("../../utils/export/index");
+const CurrencySystem = require("currency-system");
+const cs = new CurrencySystem();
 
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "beg",
             // eslint-disable-next-line quotes
-            description: 'This command is used to "beg" for coins. You have a random chance to gain coins',
+            description: 'This command is used to "beg" for money. You have a random chance to gain money',
             category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
-            cooldown: 40,
-            bankSpace: 10,
+            cooldown: 240,
         });
     }
 
@@ -43,7 +44,7 @@ module.exports = class extends Command {
         }
 
         if (another === 30) {
-            return success("**Kim Kardashian**: bye bitch, no coins for you", message.channel);
+            return success("**Kim Kardashian**: bye bitch, no money for you", message.channel);
         }
 
         if (another === 33) {
@@ -63,35 +64,43 @@ module.exports = class extends Command {
         }
 
         if (another === 48) {
-            return success("**Billie Eyelash**: honestly stop asking me for coins", message.channel);
+            return success("**Billie Eyelash**: honestly stop asking me for money", message.channel);
         }
 
         if (another === 50) {
-            return success("**2pac**: coin.exe has stopped working", message.channel);
+            return success("**2pac**: money.exe has stopped working", message.channel);
         }
 
         const random = Math.round(Math.random() * 200);
         const randomMessage = [
-            `WOW **Elon Musk** gave ${random.toLocaleString()} coins to ${message.author}.`,
-            `**Bill Gates** gave ${random.toLocaleString()} coins to ${message.author}.`,
-            `A **beggar** found ${random.toLocaleString()} coins for ${message.author}.`,
-            `**ur mom** found ${random.toLocaleString()} coins while cleaning the house and gave it to ${
+            `WOW **Elon Musk** gave \`$${random.toLocaleString()}\` to ${message.author}.`,
+            `**Bill Gates** gave \`$${random.toLocaleString()}\` to ${message.author}.`,
+            `A **beggar** found \`$${random.toLocaleString()}\` for ${message.author}.`,
+            `**ur mom** found \`$${random.toLocaleString()}\` while cleaning the house and gave it to ${
                 message.author
             }.`,
-            `${message.author} looked inside their **stepsister's** drawer and found ${random.toLocaleString()} coins.`,
-            `${message.author} asked their **dog** and he vomited ${random.toLocaleString()} coins.`,
-            `${message.author} gave **KC Playz** free subscribers so he gave them ${random.toLocaleString()} coins.`,
-            `**Oprah** has donated ${random.toLocaleString()} coins to ${message.author}.`,
-            `**Gordon Ramsay** has donated ${random.toLocaleString()} coins to ${message.author}.`,
-            `**Spoopy Skelo** has donated ${random.toLocaleString()} coins to ${message.author}.`,
-            `**Mike Ock** has donated ${random.toLocaleString()} coins to ${message.author}.`,
-            `**I. C. Wiener** has donated ${random.toLocaleString()} coins to ${message.author}.`,
-            `**Zack Martin** has donated ${random.toLocaleString()} coins to ${message.author}.`,
-            `**Default Jonesy** has donated ${random.toLocaleString()} coins to ${message.author}.`,
-            `**Selena Gomez** has donated ${random.toLocaleString()} coins to ${message.author}.`,
+            `${message.author} looked inside their **stepsister's** drawer and found \`$${random.toLocaleString()}\`.`,
+            `${message.author} asked their **dog** and he vomited \`$${random.toLocaleString()}\`.`,
+            `${message.author} gave **KC Playz** free subscribers so he gave them \`$${random.toLocaleString()}\`.`,
+            `**Oprah** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
+            `**Gordon Ramsay** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
+            `**Spoopy Skelo** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
+            `**Mike Ock** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
+            `**I. C. Wiener** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
+            `**Zack Martin** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
+            `**Default Jonesy** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
+            `**Selena Gomez** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
         ];
         const response = randomMessage[Math.floor(Math.random() * randomMessage.length)];
+
+        const result = await cs.beg({
+            user: message.author,
+            guild: message.guild,
+            minAmount: random,
+            maxAmount: random,
+        });
+
+        if (result.error) return error("**2pac**: money.exe has stopped working", message.channel);
         await success(`${response}`, message.channel).catch();
-        await this.client.util.giveCoins(message.author.id, random);
     }
 };

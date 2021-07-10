@@ -38,6 +38,7 @@ module.exports = class extends Command {
                     .setColor("RANDOM")
                     .setTimestamp()
                     .addField("Guild Name:", message.guild.name)
+                    .addField("Guild ID:", message.guild.id)
                     .addField("Channel ID:", message.channel.id)
                     .addField("Issue:", issue);
                 channel.send(embed);

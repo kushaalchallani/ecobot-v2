@@ -1,4 +1,7 @@
 const Command = require("../../structures/bases/commandBase");
+const CurrencySystem = require("currency-system");
+const cs = new CurrencySystem();
+const { error, incorrect, success } = require("../../utils/export/index");
 
 module.exports = class extends Command {
     constructor(...args) {
@@ -10,7 +13,6 @@ module.exports = class extends Command {
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 15,
-            bankSpace: 0,
             examples: ["withdraw 100", "withdraw max", "withdraw all"],
             usage: "<Amount>",
             aliases: ["with"],
@@ -18,32 +20,25 @@ module.exports = class extends Command {
     }
 
     async execute(message, args) {
-        const data = await this.client.util.fetchUser(message.author.id);
+        const money = args.join(" ");
+        if (!money) return incorrect("Enter the amount you want to withdraw.", message.channel);
 
-        if (args.join(" ") === "all" || args.join(" ") === "max") {
-            data.coinsInWallet += data.coinsInBank;
-
-            await message.channel.send(`Withdrawed **${data.coinsInBank}** coins.`);
-
-            data.coinsInBank -= data.coinsInBank;
-
-            await data.save();
+        const result = await cs.withdraw({
+            user: message.author,
+            guild: message.guild,
+            amount: money,
+        });
+        if (result.error) {
+            if (result.type === "money") return incorrect("Specify an amount to withdraw", message.channel);
+            if (result.type === "negative-money")
+                return error("You can't withdraw negative money, please use deposit command", message.channel);
+            if (result.type === "low-money") return error("You don't have that much money in bank.", message.channel);
+            if (result.type === "no-money") return error("You don't have any money to withdraw", message.channel);
         } else {
-            if (isNaN(args[0])) {
-                return message.channel.send("That's not a number.");
-            }
-
-            if (parseInt(args[0]) > data.coinsInBank) {
-                return message.channel.send("You do not have that much coins.");
-            }
-
-            data.coinsInWallet += parseInt(args[0]);
-
-            await message.channel.send(`Withdrawed **${args[0]}** coins.`);
-
-            data.coinsInBank -= parseInt(args[0]);
-
-            await data.save();
+            if (result.type === "all-success")
+                return success("You have withdraw'd all your money from your bank", message.channel);
+            if (result.type === "success")
+                return success(`You have withdraw \`$${result.amount}\` money from your bank.`, message.channel);
         }
     }
 };

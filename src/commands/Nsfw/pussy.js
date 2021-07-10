@@ -24,7 +24,7 @@ module.exports = class extends Command {
             const body = await fetch("https://nekobot.xyz/api/image?type=pussy").then((url) => url.json());
             const nsfwembed = new Embed()
                 .setColor("RANDOM")
-                .setTitle("Here take some, meow ;)")
+                .setTitle("Here take some, :cat:")
                 .setImage(body.message)
                 .setFooter(`Requested by ${message.author.tag}`, avatar);
             message.channel.send(nsfwembed);

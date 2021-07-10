@@ -13,6 +13,7 @@ module.exports = class extends Command {
             memberPermission: ["SEND_MESSAGES"],
             nsfw: false,
             cooldown: 10,
+            ownerOnly: true,
             examples: ["docs Client", "docs Message", "docs ClientUser#setActivity --src=master"],
         });
     }
@@ -30,7 +31,7 @@ module.exports = class extends Command {
         ).catch(console.error);
         const embed = await res.json();
         if (!embed) return error("Nothing found, maybe try searching for something that exists.", message.channel);
-        message.channel.send({ embed: embed });
+        message.channel.send(embed);
     }
 
     async awaitMessages(message) {

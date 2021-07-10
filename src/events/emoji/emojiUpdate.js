@@ -34,32 +34,38 @@ module.exports = class extends Event {
             if (oldEmoji.animated) {
                 channel.send(
                     new Embed()
-                        .setColor("#FFFF00")
+                        .setColor("YELLOW")
                         .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
+                            `${executor.username}#${executor.discriminator}`,
                             executor.avatarURL({ dynamic: true })
                         )
                         .setDescription(
-                            `**Before:** [${oldEmoji.name}](${oldEmoji.url})
-                        **After:** [${newEmoji.name}](${newEmoji.url})`
+                            `Animated Emoji **${oldEmoji.name}** has been Updated\n
+                        **Before:** \`${oldEmoji.name}\`
+                        **After:** \`${newEmoji.name}\``
                         )
                         .setTitle("Emoji Updated")
+                        .setThumbnail(oldEmoji.url)
                         .setTimestamp(Date.now())
+                        .setFooter(`ID: ${oldEmoji.id}`)
                 );
             } else {
                 channel.send(
                     new Embed()
-                        .setColor("#FFFF00")
+                        .setColor("YELLOW")
                         .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
+                            `${executor.username}#${executor.discriminator}`,
                             executor.avatarURL({ dynamic: true })
                         )
                         .setDescription(
-                            `**Before:** [${oldEmoji.name}](${oldEmoji.url})
-                        **After:** [${newEmoji.name}](${newEmoji.url})`
+                            `Emoji **${oldEmoji.name}** has been Updated\n
+                    **Before:** \`${oldEmoji.name}\`
+                    **After:** \`${newEmoji.name}\``
                         )
                         .setTitle("Emoji Updated")
+                        .setThumbnail(oldEmoji.url)
                         .setTimestamp(Date.now())
+                        .setFooter(`ID: ${oldEmoji.id}`)
                 );
             }
         } catch (err) {

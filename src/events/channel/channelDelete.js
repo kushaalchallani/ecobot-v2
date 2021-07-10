@@ -6,7 +6,7 @@ const { channellogsModel } = require("../../database/models/export/index");
 module.exports = class extends Event {
     constructor(...args) {
         super(...args, {
-            name: "channelCreate",
+            name: "channelDelete",
         });
     }
 
@@ -22,24 +22,13 @@ module.exports = class extends Event {
         if (!sendchannel) return;
 
         try {
-            const fetchLogs = await channel.guild.fetchAuditLogs({
-                limit: 1,
-                type: "CHANNEL_DELETE",
-            });
-
-            const log = fetchLogs.entries.first();
-
-            const { executor } = log;
-
             if (channel.type === "text") {
                 sendchannel.send(
                     new Embed()
-                        .setColor("#FF0000")
-                        .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
-                            executor.avatarURL({ dynamic: true })
-                        )
-                        .setDescription(`Text Channel \`${channel.name}\` has been deleted`)
+                        .setColor("RED")
+                        .setAuthor(channel.guild.name, channel.guild.iconURL())
+                        .setDescription(`**Text Channel Deleted: \`#${channel.name}\`**`)
+                        .setFooter(`ID: ${channel.id}`)
                         .setTimestamp(Date.now())
                 );
             }
@@ -47,12 +36,10 @@ module.exports = class extends Event {
             if (channel.type === "news") {
                 sendchannel.send(
                     new Embed()
-                        .setColor("#FF0000")
-                        .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
-                            executor.avatarURL({ dynamic: true })
-                        )
-                        .setDescription(`Announcement Channel \`${channel.name}\` has been deleted`)
+                        .setColor("RED")
+                        .setAuthor(channel.guild.name, channel.guild.iconURL())
+                        .setDescription(`**Announcement Channel Deleted: \`#${channel.name}\`**`)
+                        .setFooter(`ID: ${channel.id}`)
                         .setTimestamp(Date.now())
                 );
             }
@@ -60,14 +47,20 @@ module.exports = class extends Event {
             if (channel.type === "voice") {
                 sendchannel.send(
                     new Embed()
-                        .setColor("#FF0000")
-                        .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
-                            executor.avatarURL({ dynamic: true })
-                        )
-                        .setDescription(`Announcement Channel \`${channel.name}\` has been deleted`)
+                        .setColor("RED")
+                        .setAuthor(channel.guild.name, channel.guild.iconURL())
+                        .setDescription(`**Voice Channel Deleted: \`#${channel.name}\`**`)
+                        .setFooter(`ID: ${channel.id}`)
                         .setTimestamp(Date.now())
                 );
+            }
+            if (channel.type === "store") {
+                new Embed()
+                    .setColor("RED")
+                    .setAuthor(channel.guild.name, channel.guild.iconURL())
+                    .setDescription(`**Store Channel Deleted: \`#${channel.name}\`**`)
+                    .setFooter(`ID: ${channel.id}`)
+                    .setTimestamp(Date.now());
             }
         } catch (err) {
             console.log(err);

@@ -9,7 +9,7 @@ module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "play",
-            description: "Play songs :D",
+            description: "Plays a mentioned song or resumes it",
             category: "Music",
             ownerOnly: false,
             nsfw: false,
@@ -37,14 +37,27 @@ module.exports = class extends Command {
                 message.channel
             );
 
+        const resumeQueue = message.client.queue.get(message.guild.id);
+        if (resumeQueue && !resumeQueue.playing) {
+            resumeQueue.playing = true;
+            resumeQueue.connection.dispatcher.resume();
+            const embed = new Embed()
+                .setColor("YELLOW")
+                .setAuthor("Music has been Resumed!", "https://i.imgur.com/tZwBdli.gif");
+            return message.channel.send(embed);
+        }
+
         const searchString = args.join(" ");
-        if (!searchString) return incorrect("You didn't poivide want i want to play", message.channel);
+
+        if (!searchString) {
+            return incorrect("You have to provide me an music for me to play", message.channel);
+        }
 
         const serverQueue = message.client.queue.get(message.guild.id);
 
         const searched = await yts.search(searchString);
         if (searched.videos.length === 0)
-            return error("Looks like i was unable to find the song on YouTube", message.channel);
+            return error("Looks like I was unable to find the song on YouTube", message.channel);
         const songInfo = searched.videos[0];
 
         const song = {
@@ -76,7 +89,7 @@ module.exports = class extends Command {
             voiceChannel: channel,
             connection: null,
             songs: [],
-            volume: 2,
+            volume: 5,
             playing: true,
         };
         message.client.queue.set(message.guild.id, queueConstruct);
@@ -98,7 +111,7 @@ module.exports = class extends Command {
                     play(queue.songs[0]);
                 })
                 .on("error", (error) => console.error(error));
-            dispatcher.setVolumeLogarithmic(queue.volume / 5);
+            dispatcher.setVolumeLogarithmic(5 / 5);
             const thing = new Embed()
                 .setAuthor("Started Playing Music!", "https://i.imgur.com/tZwBdli.gif")
                 .setThumbnail(song.img)

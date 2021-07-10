@@ -9,7 +9,6 @@ module.exports = class Command {
         this.nsfw = options.nsfw || false;
         this.ownerOnly = options.ownerOnly || false;
         this.premium = options.premium || false;
-        this.bankSpace = options.bankSpace || 0;
         this.guildOnly = options.guildOnly || false;
         this.cooldown = options.cooldown || null;
         this.memberPermission = options.memberPermission || [];

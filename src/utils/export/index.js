@@ -1,8 +1,6 @@
 module.exports = {
     error: require("../error"),
-    success: require("../sucess"),
+    success: require("../success"),
     incorrect: require("../incorrect"),
     redEmbed: require("../redEmbed"),
-    itemss: require("../items"),
-    itemManager: require("../itemManager"),
 };

@@ -24,7 +24,7 @@ module.exports = class extends Command {
             const body = await fetch("https://nekobot.xyz/api/image?type=ass").then((url) => url.json());
             const fourk = new Embed()
                 .setColor("RANDOM")
-                .setTitle("Takes some Thicc & Fresh Ass")
+                .setTitle("Take some Thicc & Fresh Ass")
                 .setImage(body.message)
                 .setFooter(`Requested by ${message.author.tag}`, avatar);
             message.channel.send(fourk);

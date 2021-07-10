@@ -23,30 +23,20 @@ module.exports = class extends Event {
         if (!channel) return;
 
         try {
-            const fetchLogs = await Brole.guild.fetchAuditLogs({
-                limit: 1,
-                type: "ROLE_UPDATE",
-            });
-
-            const log = fetchLogs.entries.first();
-
-            const { executor } = log;
-
             if (Brole.rawPosition !== Arole.rawPosition) return;
 
             channel.send(
                 new Embed()
-                    .setColor(Arole.color || "#FFFF00")
-                    .setAuthor(
-                        `${executor.username}#${executor.discriminator} (${executor.id})`,
-                        executor.avatarURL({ dynamic: true })
-                    )
+                    .setColor(Arole.color || "YELLOW")
+                    .setAuthor(`${Brole.guild.name}`, Brole.guild.iconURL({ dynamic: true }))
+                    .setTitle("Role Updated")
                     .addFields(
                         {
                             name: "❯ Before:",
                             value: `**Name:** ${Brole.name} 
                         **Hex Color:** #${allYour("decimal").areBelongTo("hexdecimal")(Brole.color)}
                         **Mentionable:** ${Brole.mentionable}
+                        **Hoisted:** ${Brole.hoist}
                         **❯ Permissions:** \n\` ${Brole.permissions.toArray().join("\n") || "No Permission"}\`
                     `,
                             inline: true,
@@ -56,11 +46,14 @@ module.exports = class extends Event {
                             value: `**Name:** ${Arole.name} 
                         **Hex Color:** #${allYour("decimal").areBelongTo("hexdecimal")(Arole.color)}
                         **Mentionable:** ${Arole.mentionable}
+                        **Hoisted:** ${Arole.hoist}
                         **❯ Permissions:** \n\` ${Arole.permissions.toArray().join("\n") || "No Permission"}\`
                     `,
                             inline: true,
                         }
                     )
+                    .setFooter(`ID: ${Brole.id}`)
+                    .setTimestamp(Date.now())
             );
         } catch (err) {
             console.log(err);

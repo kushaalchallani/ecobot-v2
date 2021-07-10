@@ -34,17 +34,14 @@ module.exports = class extends Event {
         if (!channel) return;
 
         const embed = new Embed()
-            .setColor("#FF0000")
-            .setAuthor(
-                `${executor.username}#${executor.discriminator} (${executor.id})`,
-                executor.avatarURL({ dynamic: true })
-            )
+            .setColor("RED")
+            .setAuthor(`${executor.username}#${executor.discriminator}`, executor.avatarURL({ dynamic: true }))
             .setDescription(
-                `Message ${message.id} deleted from ${message.channel}
-                    **Content:** ${message.content}
-                    **Deleted By:** ${executor.username}#${executor.discriminator}`
+                `**Message Sent By <@${executor.id}> deleted in ${message.channel}**
+                ${message.content}`
             )
-            .setTimestamp(Date.now());
+            .setTimestamp(Date.now())
+            .setFooter(`Author: ${executor.id} | Messsage ID: ${message.id}`);
 
         channel.send(embed);
     }

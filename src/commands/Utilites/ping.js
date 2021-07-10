@@ -17,17 +17,29 @@ module.exports = class extends Command {
     }
 
     async execute(message) {
-        message.channel.send("🏓 Pinging....").then((msg) => {
-            const embed = new Embed()
-                .setTitle("🏓Pong!")
-                .setDescription(
-                    `Message Latency is ${Math.floor(
-                        msg.createdTimestamp - message.createdTimestamp
-                    )}ms\nAPI Latency is ${Math.round(this.client.ws.ping)}ms`
-                )
-                .setColor("BLUE");
-            msg.edit(embed);
-            msg.edit("\u200B");
-        });
+        const msg = await message.channel.send("🏓 Pinging...");
+        const embed = new Embed()
+        .setTitle("🏓 Pong!")
+        .setColor("BLUE")
+        .setDescription(
+                        `Message Latency is ${Math.floor(
+                            msg.createdTimestamp - message.createdTimestamp
+                        )}ms\nAPI Latency is ${Math.round(this.client.ws.ping)}ms`
+                    );
+                    await message.channel.send({ embeds: [embed] });
+                    msg.delete();
     }
 };
+
+// message.channel.send("🏓 Pinging....").then((msg) => {
+//     const embed = new Embed()
+//         .setTitle("🏓Pong!")
+//         .setDescription(
+//             `Message Latency is ${Math.floor(
+//                 msg.createdTimestamp - message.createdTimestamp
+//             )}ms\nAPI Latency is ${Math.round(this.client.ws.ping)}ms`
+//         )
+//         .setColor("BLUE");
+//     msg.edit("\u200B");
+//     msg.edit(embed);
+// });

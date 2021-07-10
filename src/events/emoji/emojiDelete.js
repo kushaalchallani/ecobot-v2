@@ -34,28 +34,30 @@ module.exports = class extends Event {
             if (emoji.animated) {
                 channel.send(
                     new Embed()
-                        .setColor("#FF0000")
+                        .setColor("RED")
                         .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
+                            `${executor.username}#${executor.discriminator}`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(`Emoji ${emoji.name}(${emoji.id}) has been Deleted`)
+                        .setDescription(`Animated Emoji **${emoji.name}** has been Deleted`)
                         .setTitle("Emoji Deleted")
-                        .setURL(emoji.url)
+                        .setThumbnail(emoji.url)
                         .setTimestamp(Date.now())
+                        .setFooter(`ID: ${emoji.id}`)
                 );
             } else {
                 channel.send(
                     new Embed()
-                        .setColor("#FF0000")
+                        .setColor("RED")
                         .setAuthor(
-                            `${executor.username}#${executor.discriminator} (${executor.id})`,
+                            `${executor.username}#${executor.discriminator}`,
                             executor.avatarURL({ dynamic: true })
                         )
-                        .setDescription(`Emoji ${emoji.name}(${emoji.id}) has been Deleted`)
+                        .setDescription(`Emoji **${emoji.name}** has been Deleted`)
                         .setTitle("Emoji Deleted")
-                        .setURL(emoji.url)
+                        .setThumbnail(emoji.url)
                         .setTimestamp(Date.now())
+                        .setFooter(`ID: ${emoji.id}`)
                 );
             }
         } catch (err) {

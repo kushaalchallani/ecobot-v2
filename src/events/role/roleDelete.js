@@ -22,29 +22,13 @@ module.exports = class extends Event {
         if (!channel) return;
 
         try {
-            const fetchLogs = await role.guild.fetchAuditLogs({
-                limit: 1,
-                type: "ROLE_DELETE",
-            });
-
-            const log = fetchLogs.entries.first();
-
-            const { executor } = log;
-
             channel.send(
                 new Embed()
-                    .setColor("#FF0000")
-                    .setAuthor(
-                        `${executor.username}#${executor.discriminator} (${executor.id})`,
-                        executor.avatarURL({ dynamic: true })
-                    )
-                    .setDescription(
-                        `**Role Deleted**
-                    **Role Name:** ${role.name}
-                    **Role ID:** ${role.id}
-                    `
-                    )
+                    .setColor("RED")
+                    .setAuthor(`${role.guild.name}`, role.guild.iconURL({ dynamic: true }))
+                    .setDescription(` **Role Deleted:** \`${role.name}\``)
                     .setTimestamp(Date.now())
+                    .setFooter(`ID: ${role.id}`)
             );
         } catch (err) {
             console.log(err);

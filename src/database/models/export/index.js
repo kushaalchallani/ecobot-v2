@@ -1,6 +1,6 @@
 module.exports = {
     afkModel: require("../afkModel"),
-    muteModel: require("../muteModel"),
+    tempMuteModel: require("../tempMuteModel"),
     prefixModel: require("../prefixModel"),
     premiumModel: require("../premiumModel"),
     suggestionModel: require("../suggestionsModel"),
@@ -11,11 +11,10 @@ module.exports = {
     welcomeModel: require("../welcomeModel"),
     leaveModel: require("../leaveModel"),
     joinroleModel: require("../joinrole"),
-    ecoGuildModel: require("../ecoGuildModel"),
-    economyModel: require("../ecoModel"),
     logsModel: require("../Messagelogs"),
     rolelogsModel: require("../roleLogs"),
     channellogsModel: require("../channelLogs"),
     serverlogsModel: require("../serverLogs"),
-    reactionroleModel: require("../reactionrole"),
+    ghostPingModel: require("../ghostPingModel"),
+    muteModel: require("../muteModel"),
 };
