@@ -5,6 +5,7 @@ const { Collection } = require("discord.js");
 const { prefixModel, tagModel, premiumModel } = require("../../database/models/export/index");
 const { errormsgs } = require("../../json/exports/index");
 const { redEmbed } = require("../../utils/export/index");
+const statcord = require("../../bot");
 
 module.exports = class extends Event {
     constructor(...args) {
@@ -40,6 +41,8 @@ module.exports = class extends Event {
 
         const command =
             this.client.commands.get(commandName) || this.client.commands.get(this.client.aliases.get(commandName));
+
+        // statcord.postCommand(command, message.author.id);
 
         if (!command) {
             const tagName = message.content.slice(PREFIX.length);

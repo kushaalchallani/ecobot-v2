@@ -3,6 +3,7 @@ const { Client, Collection, Intents } = require("discord.js");
 const { eventRegistry, commandRegistry } = require("../registries/export/index");
 const Util = require("./util");
 const { suggestion, afk, thanklb, clickMenu, ghostPingDetector } = require("../features/feature/exports/index");
+const statcord = require("../bot");
 const CurrencySystem = require("currency-system");
 const cs = new CurrencySystem();
 
@@ -33,6 +34,8 @@ module.exports = class EcoBot extends Client {
 
         this.commandsUsed = 0;
 
+        this.statcord = statcord;
+
         // Economy
         cs.setMongoURL(process.env.mongo_uri);
         cs.setDefaultWalletAmount(100);
@@ -49,6 +52,7 @@ module.exports = class EcoBot extends Client {
         ghostPingDetector(this);
         require("../database/database")();
         require("../features/load-features")();
+        // super.login(process.env.TEST_BOT_TOKEN);
         super.login(process.env.BOT_TOKEN);
     }
 };

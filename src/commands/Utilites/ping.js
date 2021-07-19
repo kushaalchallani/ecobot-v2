@@ -19,15 +19,15 @@ module.exports = class extends Command {
     async execute(message) {
         const msg = await message.channel.send("🏓 Pinging...");
         const embed = new Embed()
-        .setTitle("🏓 Pong!")
-        .setColor("BLUE")
-        .setDescription(
-                        `Message Latency is ${Math.floor(
-                            msg.createdTimestamp - message.createdTimestamp
-                        )}ms\nAPI Latency is ${Math.round(this.client.ws.ping)}ms`
-                    );
-                    await message.channel.send({ embeds: [embed] });
-                    msg.delete();
+            .setTitle("🏓 Pong!")
+            .setColor("BLUE")
+            .setDescription(
+                `Message Latency is ${Math.floor(
+                    msg.createdTimestamp - message.createdTimestamp
+                )}ms\nAPI Latency is ${Math.round(this.client.ws.ping)}ms`
+            );
+        await message.channel.send(embed);
+        msg.delete();
     }
 };
 

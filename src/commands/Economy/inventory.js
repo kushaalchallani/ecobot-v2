@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const Command = require("../../structures/bases/commandBase");
 const Embed = require("../../structures/embed");
 const CurrencySystem = require("currency-system");
@@ -23,7 +24,7 @@ module.exports = class extends Command {
             guild: message.guild,
         });
         const inv = result.inventory.slice(0, 10);
-        const embed = new Embed().setColor("RANDOM").setDescription("Your Inventory in Empty!");
+        const embed = new Embed().setDescription("Your Inventory in Empty!").setColor("BLUE");
         for (key of inv) {
             embed.addField(`**${key.name}:**`, `Amount: ${key.amount}`);
             embed.setDescription("Your Inventory!");

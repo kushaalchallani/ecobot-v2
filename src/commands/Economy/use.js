@@ -7,7 +7,7 @@ const { error, incorrect, success } = require("../../utils/export/index");
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
-            name: "shop",
+            name: "use",
             description: "View the item you can buy",
             category: "Economy",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
@@ -19,7 +19,7 @@ module.exports = class extends Command {
 
     async execute(message, args) {
         const item = args[0];
-        if (!item) return incorrect("What item you wanna use?");
+        if (!item) return incorrect("What item you wanna use?", message.channel);
         let haveItem = false;
         const arr = await cs.getUserItems({
             user: message.author,

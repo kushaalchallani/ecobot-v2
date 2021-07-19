@@ -1,5 +1,6 @@
 const Event = require("../structures/bases/eventBase");
 const { tempMuteModel } = require("../database/models/export/index");
+const statcord = require("../bot");
 const Embed = require("../structures/embed");
 const chalk = require("chalk");
 const express = require("express");
@@ -32,6 +33,18 @@ module.exports = class extends Event {
             this.client.user.setActivity(status.name, status.options);
         }, 30000);
 
+        // statcord
+
+        statcord.autopost();
+
+        statcord.on("autopost-start", () => {
+            console.log(chalk.greenBright("[STATCORD]") + " Started autopost");
+        });
+
+        statcord.on("post", (status) => {
+            if (!status) console.log(chalk.greenBright("[STATCORD]") + " Successful post");
+            else console.error(status);
+        });
         // temp mute role add
 
         setInterval(async () => {
