@@ -5,6 +5,10 @@ const Util = require("./util");
 const { suggestion, afk, thanklb, clickMenu, ghostPingDetector } = require("../features/feature/exports/index");
 const statcord = require("../bot");
 const CurrencySystem = require("currency-system");
+CurrencySystem.cs.on("debug", (debug, error) => {
+    console.log(debug);
+    if (error) console.error(error);
+});
 const cs = new CurrencySystem();
 
 module.exports = class EcoBot extends Client {

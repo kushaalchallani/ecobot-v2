@@ -42,7 +42,7 @@ module.exports = class extends Event {
         const command =
             this.client.commands.get(commandName) || this.client.commands.get(this.client.aliases.get(commandName));
 
-        // statcord.postCommand(command, message.author.id);
+        statcord.postCommand(commandName, message.author.id);
 
         if (!command) {
             const tagName = message.content.slice(PREFIX.length);
