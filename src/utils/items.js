@@ -1,0 +1,448 @@
+/* eslint-disable no-empty-function */
+/* eslint-disable no-unused-vars */
+const lock = "<:shiny_lock:875762407526514800>";
+const rifle = "<:rifle:875762407216136232> ";
+const axe = "<:eco_axe:875762406977056808>";
+const pick = "<:pickaxe:875762406444376086>";
+const rainbow_coin = "<a:rainbow_coin:875762408600252447>";
+const gold_coin = "<a:gold_coin:875762409145528330> ";
+const silver_coin = "<a:silver_coin:875762409111973938>";
+const bronze_coin = "<a:bronze_coin:875762408675745832>";
+const trophy = "<a:eco_trophy:875762408990322729>";
+const clover = "<:clover:875762407539085352> ";
+const junkemoji = "<:HYDRA_JUNK:781846282473046016>";
+const legfish = "<:legfish:875762406566015017> ";
+const diamond = "<:diamond:875762406830247937>";
+const ruby = "<:ruby:875762407425859664> ";
+const gade = "<:gade:875762406838648863>";
+const amethyst = "<:amethyst:875762406528282625>";
+const precious = "<:precious:875762406738001970>";
+
+const { success } = require("./export/index");
+const array = [
+    {
+        name: "cookie",
+        description: "🍪 **Cookie**\na tasty snack.",
+        canUse: true,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 10,
+        price: 40,
+        keep: false,
+        run: async (message, args) => {
+            const cookieRandom = [
+                "You ate a cookie as you was feeling hungry.",
+                "You choked on a cookie and almost died.",
+                "The cookie tasted great.",
+            ];
+            const yes = cookieRandom[Math.floor(Math.random() * cookieRandom.length)];
+            success(`${yes}`, message.channel);
+        },
+    },
+    {
+        name: "padlock",
+        description: `${lock} **Padlock**\nSecure your wallet from those sneaky robbers`,
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 2500,
+        price: 10000,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "fishingrod",
+        description: "🎣 **Fishing Rod** \nUse this to catchs fish",
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 2500,
+        price: 10000,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "common",
+        description: "🐟 **Common Fish** \nSell common to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 25,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "uncommon",
+        description: "🐠 **Uncommon Fish** \nSell uncommon to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 50,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "rare",
+        description: "🦑 **Rare Fish** \nSell rare to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 150,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "veryrare",
+        description: "🐡 **Very Rare Fish** \nSell veryrare to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 1000,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "legendary",
+        description: `${legfish} **Legendary Fish** \nSell legendary to make money.`,
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 2500,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "junk",
+        description: `${junkemoji} **Junk** \nSell junk to make money.`,
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 10,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "banknote",
+        description: "📜 **Bank Note** \nMore bank space.",
+        canUse: true,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 5000,
+        price: 20000,
+        keep: false,
+        run: async (message, args) => {
+            const random = Math.ceil(Math.random() * 5000 + 5000);
+            const e = await this.client.util.giveBankSpace(message.author.id, random);
+            success(
+                `You redeemed a banknote, which increases your bank space by **${random.toLocaleString()}**. You now have **${e.bankSpace.toLocaleString()}** bank space.`,
+                message.channel
+            );
+        },
+    },
+    {
+        name: "rifle",
+        description: `${rifle} **Rifle**\nUse this to kills animals`,
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 2500,
+        price: 20000,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "deer",
+        description: "🦌 **Deer**\nSell deer to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 50,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "bear",
+        description: "🐻 **Bear**\nSell bear to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 60,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "duck",
+        description: "🦆 **Duck**\nSell duck to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 25,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "pig",
+        description: "🐷 **Pig**\nSell pig to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 80,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "cow",
+        description: "🐮 **Cow**\nSell cow to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 120,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "fox",
+        description: "🦊 **Fox**\nSell fox to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 500,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "rabbit",
+        description: "🐰 **Rabbit**\nSell rabbit to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 300,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "chicken",
+        description: "🐔 **Chicken**\nSell chicken to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 50,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "boar",
+        description: "🐗 **Boar**\nSell boar to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 100,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "pickaxe",
+        description: `${pick} **Pickaxe**\nUse this to mine gems`,
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 5000,
+        price: 30000,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "gem",
+        description: "💎 **Gem**\nSell gems to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 10,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "diamond",
+        description: `${diamond} **Diamond Gem** \nSell the diamond to make money.`,
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 300,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "ruby",
+        description: `${ruby} **Ruby Gem** \nSell the ruby to make money.`,
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 500,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "gade",
+        description: `${gade} **Gade Gem** \nSell the gade to make money.`,
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 350,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "amethyst",
+        description: `${amethyst} **Amethyst Gem** \nSell the amethyst to make money.`,
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 700,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "precious",
+        description: `${precious} **Precious Gem** \nSell the precious to make money.`,
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 1000,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "axe",
+        description: `${axe} **Axe**\nUse this to chops trees down`,
+        canUse: true,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 5000,
+        price: 20000,
+        keep: true,
+        run: async (message, args) => {
+            const treeAmount = Math.round(Math.random() * 1) + 1;
+            const data = await this.client.util.fetchUser(message.author.id);
+            success(`You went into the woods and chopped down **${treeAmount}** x Tree 🌲`, message.channel);
+            const findItem = data.items.find((i) => i.name.toLowerCase() == "tree");
+            const userInv = data.items.filter((i) => i.name.toLowerCase() !== "tree");
+            if (findItem) {
+                userInv.push({
+                    name: "tree",
+                    amount: findItem.amount + treeAmount,
+                    description: "🌲 **Tree**\nSell trees to make money.",
+                });
+                data.items = userInv;
+                await data.save();
+            } else {
+                userInv.push({
+                    name: "tree",
+                    amount: treeAmount,
+                    description: "🌲 **Tree**\nSell trees to make money.",
+                });
+                data.items = userInv;
+                await data.save();
+            }
+        },
+    },
+    {
+        name: "tree",
+        description: "🌲 **Tree**\nSell trees to make money.",
+        canUse: false,
+        canBuy: false,
+        displayOnShop: false,
+        sellAmount: 500,
+        price: 0,
+        keep: true,
+        run: async (message, args) => {},
+    },
+    {
+        name: "luckyclover",
+        description: `${clover} **Lucky Clover**\nIncrease your chances of successful robbery`,
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 4000,
+        price: 10000,
+        keep: false,
+        run: async (message, args) => {},
+    },
+    {
+        name: "rainbowcoin",
+        description: `${rainbow_coin} **Hydra Rainbow Coin**`,
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 50000000,
+        price: 100000000,
+        keep: false,
+        run: async (message, args) => {},
+    },
+    {
+        name: "goldcoin",
+        description: `${gold_coin} **Hydra Gold Coin**`,
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 25000000,
+        price: 50000000,
+        keep: false,
+        run: async (message, args) => {},
+    },
+    {
+        name: "silvercoin",
+        description: `${silver_coin} **Hydra Silver Coin**`,
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 7500000,
+        price: 15000000,
+        keep: false,
+        run: async (message, args) => {},
+    },
+    {
+        name: "bronzecoin",
+        description: `${bronze_coin} **Hydra Bronze Coin**`,
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 2500000,
+        price: 5000000,
+        keep: false,
+        run: async (message, args) => {},
+    },
+    {
+        name: "trophy",
+        description: `${trophy} **Hydra Trophy**`,
+        canUse: false,
+        canBuy: true,
+        displayOnShop: true,
+        sellAmount: 50000000,
+        price: 100000000,
+        keep: false,
+        run: async (message, args) => {},
+    },
+];
+
+module.exports = array;

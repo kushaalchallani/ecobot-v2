@@ -1,41 +1,44 @@
-const Command = require("../../structures/bases/commandBase");
-const CurrencySystem = require("currency-system");
-const cs = new CurrencySystem();
 const Embed = require("../../structures/embed");
-const { error } = require("../../utils/export/index");
-const { prefixModel } = require("../../database/models/export/index");
+const Command = require("../../structures/bases/commandBase");
+const tick = "<:big_tick:876015832617086986>";
+const warn = "<:haze_red:876015832554164244>";
+const prettyMilliseconds = require("pretty-ms");
 
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "daily",
-            description: "Get your Daily coins and spend em!",
+            description: "Get your coins rewards",
             category: "Economy",
+            cooldown: 1,
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
+            ownerOnly: false,
             nsfw: false,
-            premium: false,
+            bankspace: 30,
         });
     }
 
     async execute(message) {
-        const prefix = (await prefixModel.findOne({ guildID: message.guild.id }))
-            ? (await prefixModel.findOne({ guildID: message.guild.id })).prefix
-            : this.client.prefix;
-
-        const result = await cs.daily({
-            user: message.author,
-            guild: message.guild,
-            amount: 500,
-        });
-        if (result.error) return error(`You have used daily recently Try again in \`${result.time}\``, message.channel);
-
-        const claimed = new Embed()
-            .setTitle(`Here are your daily coins, **${message.author.username}**`)
-            .setDescription(
-                `**$${result.amount}** were placed in your wallet\n\nYou can get your weekly and monthly coins by buying premium. Use \`${prefix}patreon\` and view the perks. [Click here](https://www.patreon.com/Ecoobot) to go patreon`
-            )
-            .setColor("RANDOM");
-        message.channel.send(claimed);
+        const user = await this.client.util.fetchUser(message.author.id);
+        if (Date.parse(user.dailyStreak) + 86400000 > Date.now()) {
+            const embed = new Embed()
+                .setDescription(
+                    `${warn} This command is on Cooldown\n\n Woah there, you need to wait \`${prettyMilliseconds(
+                        Date.parse(user.dailyStreak) + 86400000 - Date.now()
+                    )}\` before using this command again.\n\nThe default cooldown on this command is \`1d\`.`
+                )
+                .setColor("RED");
+            return message.channel.send(embed);
+        } else {
+            const claimed = new Embed()
+                .setDescription(
+                    `${tick} You were given \`2500\` coins! Use this command in \`24h\` to claim your daily reward again!`
+                )
+                .setColor("GREEN");
+            message.channel.send(claimed);
+            user.coinsInWallet += 2500;
+            user.save().then((user.dailyStreak = new Date(Date.now())));
+        }
     }
 };

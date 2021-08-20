@@ -13,7 +13,7 @@ module.exports = class extends Command {
             cooldown: 3,
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
-            aliases: ["bj"],
+            aliases: ["bjb"],
             premium: true,
         });
     }

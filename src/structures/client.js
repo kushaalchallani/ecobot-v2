@@ -4,12 +4,8 @@ const { eventRegistry, commandRegistry } = require("../registries/export/index")
 const Util = require("./util");
 const { suggestion, afk, thanklb, clickMenu, ghostPingDetector } = require("../features/feature/exports/index");
 const statcord = require("../bot");
-const CurrencySystem = require("currency-system");
-CurrencySystem.cs.on("debug", (debug, error) => {
-    console.log(debug);
-    if (error) console.error(error);
-});
-const cs = new CurrencySystem();
+const { ItemManager } = require("../utils/export/index");
+const { economyModel } = require("../database/models/export/index");
 
 module.exports = class EcoBot extends Client {
     constructor() {
@@ -41,9 +37,10 @@ module.exports = class EcoBot extends Client {
         this.statcord = statcord;
 
         // Economy
-        cs.setMongoURL(process.env.mongo_uri);
-        cs.setDefaultWalletAmount(100);
-        cs.setDefaultBankAmount(1000);
+
+        this.economy = economyModel;
+        this.items = new ItemManager();
+        this.commandsUsed = 1;
     }
 
     async start() {
@@ -56,7 +53,7 @@ module.exports = class EcoBot extends Client {
         ghostPingDetector(this);
         require("../database/database")();
         require("../features/load-features")();
-        // super.login(process.env.TEST_BOT_TOKEN);
-        super.login(process.env.BOT_TOKEN);
+        super.login(process.env.TEST_BOT_TOKEN);
+        // super.login(process.env.BOT_TOKEN);
     }
 };

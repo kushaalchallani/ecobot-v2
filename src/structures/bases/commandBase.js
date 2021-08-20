@@ -15,5 +15,6 @@ module.exports = class Command {
         this.botPermission = options.botPermission || [];
         this.subcommands = options.subcommands || null;
         this.examples = options.examples || [];
+        this.bankspace = options.bankspace || null;
     }
 };

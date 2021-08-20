@@ -42,9 +42,7 @@ function menuselection(menu) {
                 new Embed()
                     .setColor("BLUE")
                     .setTitle("💰 Economy Commands")
-                    .setDescription(
-                        "`additem` `addmoney` `balance` `beg` `buy` `daily` `deposit` `gamble` `give` `global-lb` `hourly` `inventory` `leaderboard` `monthly` `removeitem` `removemoney` `rob` `sell` `shop` `use` `weekly` `withdraw` `work`"
-                    ),
+                    .setDescription("`balance` `beg` `blackjack` `buy` `crime` `daily` `deposit`"),
                 true
             );
             break;

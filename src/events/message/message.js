@@ -89,6 +89,10 @@ module.exports = class extends Event {
             return redEmbed(`You need to mention a member you want to **${command.name}**`, message.channel);
         }
 
+        if (command.bankspace !== 0) {
+            this.client.util.giveBankSpace(message.author.id, command.bankSpace);
+        }
+
         if (command.cooldown) {
             const { cooldowns } = this.client;
 

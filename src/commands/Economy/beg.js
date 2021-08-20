@@ -1,19 +1,18 @@
+const { success } = require("../../utils/export/index");
 const Command = require("../../structures/bases/commandBase");
-const { success, error } = require("../../utils/export/index");
-const CurrencySystem = require("currency-system");
-const cs = new CurrencySystem();
 
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "beg",
-            // eslint-disable-next-line quotes
-            description: 'This command is used to "beg" for money. You have a random chance to gain money',
+            description: "Don't have money, then start beggin",
             category: "Economy",
+            cooldown: 60,
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
+            ownerOnly: false,
             nsfw: false,
-            cooldown: 240,
+            bankspace: 7,
         });
     }
 
@@ -71,7 +70,7 @@ module.exports = class extends Command {
             return success("**2pac**: money.exe has stopped working", message.channel);
         }
 
-        const random = Math.round(Math.random() * 200);
+        const random = Math.round(Math.random() * 150);
         const randomMessage = [
             `WOW **Elon Musk** gave \`$${random.toLocaleString()}\` to ${message.author}.`,
             `**Bill Gates** gave \`$${random.toLocaleString()}\` to ${message.author}.`,
@@ -91,16 +90,11 @@ module.exports = class extends Command {
             `**Default Jonesy** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
             `**Selena Gomez** has donated \`$${random.toLocaleString()}\` to ${message.author}.`,
         ];
+
         const response = randomMessage[Math.floor(Math.random() * randomMessage.length)];
 
-        const result = await cs.beg({
-            user: message.author,
-            guild: message.guild,
-            minAmount: random,
-            maxAmount: random,
-        });
+        success(`${response}`, message.channel);
 
-        if (result.error) return error("**2pac**: money.exe has stopped working", message.channel);
-        await success(`${response}`, message.channel).catch();
+        await this.client.util.giveCoins(message.author.id, random);
     }
 };

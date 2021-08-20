@@ -1,48 +1,44 @@
-const Command = require("../../structures/bases/commandBase");
-const CurrencySystem = require("currency-system");
 const Embed = require("../../structures/embed");
-const cs = new CurrencySystem();
+const Command = require("../../structures/bases/commandBase");
 
 module.exports = class extends Command {
     constructor(...args) {
         super(...args, {
             name: "balance",
-            description: "A way to know the amount  of money in your bank or in your wallet.",
+            description:
+                "Check your coin balance, or someone elses. Shows pocket, bank and networth, if you are using it for yourself it also shows your bankspace available.",
+            aliases: ["bal", "coins", "bank", "networth"],
             category: "Economy",
-            aliases: ["bal", "money", "bankbalance"],
+            cooldown: 3,
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],
-            nsfw: false,
             usage: "[user]",
-            cooldown: 3,
+            examples: ["balance", "balance @Gogeta#0069", "balance Gogeta", "balance 485716273901338634"],
             ownerOnly: false,
-            examples: ["balance", "balance @Gogeta#0069", "balance 485716273901338634"],
+            nsfw: false,
+            bankspace: 0,
         });
     }
 
     async execute(message, args) {
-        let user;
-        if (message.mentions.users.first()) {
-            user = message.mentions.users.first();
-        } else if (args[0]) {
-            user = message.guild.members.cache.get(args[0]);
-            if (user) user = user.user;
-        } else if (!args[0]) {
-            user = message.author;
-        }
-
-        const result = await cs.balance({
-            user: user,
-            guild: message.guild,
-        });
-
-        message.channel.send(
-            new Embed()
-                .setTitle(`${user.username}'s Balance`)
-                .setDescription(`**Wallet:** $${result.wallet}\n**Bank:** $${result.bank}`)
-                .setColor("RANDOM")
-                .setFooter("💰")
-                .setTimestamp(Date.now())
-        );
+        const member =
+            message.mentions.members.first() ||
+            message.guild.members.cache.get(args[0]) ||
+            message.guild.members.cache.find(
+                (member) => member.user.username === args.slice(0).join(" ") || member.user.username === args[0]
+            ) ||
+            message.member;
+        const user = await this.client.util.fetchUser(member.id);
+        const embed = new Embed()
+            .setTitle(`${member.user.username}'s Balance`)
+            .setTimestamp()
+            .setFooter("💰")
+            .setDescription(
+                `💳 **Wallet**: ${user.coinsInWallet.toLocaleString()}\n🏦 **Bank**: ${user.coinsInBank.toLocaleString()}/${user.bankSpace.toLocaleString()}\n\n🌐 **Total Net Worth**: ${(
+                    user.coinsInWallet + user.coinsInBank
+                ).toLocaleString()}`
+            )
+            .setColor("RANDOM");
+        message.channel.send(embed);
     }
 };

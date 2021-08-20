@@ -1,5 +1,4 @@
 const Embed = require("../structures/embed");
-
 /**
  *
  * @param {String} text
@@ -7,6 +6,6 @@ const Embed = require("../structures/embed");
  */
 
 module.exports = async (text, channel) => {
-    const embed = new Embed().setColor("RED").setTitle("❌ Incorrect Command Usage").setDescription(text);
+    const embed = new Embed().setColor("RED").setTitle("Incorrect Command Usage").setDescription(text);
     await channel.send(embed);
 };

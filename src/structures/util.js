@@ -1,3 +1,5 @@
+const { economyModel } = require("../database/models/export");
+
 module.exports = class Util {
     constructor(client) {
         this.client = client;
@@ -64,5 +66,92 @@ module.exports = class Util {
 
     removeDuplicates(arr) {
         return [...new Set(arr)];
+    }
+
+    // Economy Functions
+
+    /**
+     *
+     * @param {string} userId - A discord user ID.
+     */
+
+    async fetchUser(userId) {
+        const someone = this.client.users.cache.get(userId);
+        if (!someone || someone.bot) return false;
+        const user = await economyModel.findOne({ userId: userId });
+        if (!user) {
+            const newUser = new economyModel({
+                userId: userId,
+                items: [],
+            });
+            newUser.save();
+            return newUser;
+        }
+        return user;
+    }
+
+    /**
+     *
+     * @param {string} userId - A discord user ID.
+     * @param {number} amount - Amount of bank space to give.
+     */
+
+    async giveBankSpace(userId, amount) {
+        const someone = this.client.users.cache.get(userId);
+        if (!someone || someone.bot) return false;
+        const user = await economyModel.findOne({ userId: userId });
+        if (!user) {
+            const newUser = new economyModel({
+                userId: userId,
+                items: [],
+            });
+            newUser.save();
+            return newUser;
+        }
+        user.bankSpace += isNaN(amount);
+        await user.save();
+        return user;
+    }
+
+    /**
+     *
+     * @param {string} userId - A discord user ID.
+     */
+
+    async createUser(userId) {
+        const someone = this.client.users.cache.get(userId);
+        if (!someone || someone.bot) return false;
+        const user = await economyModel.findOne({ userId: userId });
+        if (!user) return false;
+        const newUser = new economyModel({
+            userId: userId,
+            items: [],
+        });
+        newUser.save();
+        return newUser;
+    }
+
+    /**
+     *
+     * @param {string} userId - A discord user ID.
+     * @param {number} amount - Amount of coins to give.
+     */
+
+    async giveCoins(userId, amount) {
+        const someone = this.client.users.cache.get(userId);
+        if (!someone || someone.bot) return false;
+        const user = await economyModel.findOne({ userId: userId });
+        if (!user) {
+            const newUser = new economyModel({
+                userId: userId,
+                items: [],
+                coinsInWallet: parseInt(amount),
+            });
+            newUser.save();
+            return newUser;
+        }
+        user.coinsInWallet += parseInt(amount);
+        await user.save();
+        return user;
     }
 };

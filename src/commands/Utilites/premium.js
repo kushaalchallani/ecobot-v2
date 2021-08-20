@@ -8,7 +8,7 @@ module.exports = class extends Command {
         super(...args, {
             name: "premium",
             description: "Claim your [patreon](https://www.patreon.com/Ecoobot) perks.",
-            aliases: ["patreonperks", "premiumperks", "claimperks"],
+            aliases: ["patreonperks", "premiumperks", "claimperks", "redeem"],
             category: "Utilites",
             botPermission: ["SEND_MESSAGES", "EMBED_LINKS"],
             memberPermission: ["SEND_MESSAGES"],

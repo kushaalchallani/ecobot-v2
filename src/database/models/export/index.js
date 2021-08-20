@@ -17,4 +17,5 @@ module.exports = {
     serverlogsModel: require("../serverLogs"),
     ghostPingModel: require("../ghostPingModel"),
     muteModel: require("../muteModel"),
+    economyModel: require("../economyModel"),
 };
