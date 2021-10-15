@@ -53,7 +53,7 @@ module.exports = class EcoBot extends Client {
         ghostPingDetector(this);
         require("../database/database")();
         require("../features/load-features")();
-        super.login(process.env.TEST_BOT_TOKEN);
+        super.login(process.env.BOT_TOKEN);
         // super.login(process.env.BOT_TOKEN);
     }
 };
